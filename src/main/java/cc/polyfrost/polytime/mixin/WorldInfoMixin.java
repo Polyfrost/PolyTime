@@ -13,11 +13,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(WorldInfo.class)
 public class WorldInfoMixin {
 
-    @Shadow private long worldTime;
+    @Shadow
+    private long worldTime;
 
     @Overwrite
     public long getWorldTime() {
-        if (PolyTime.INSTANCE.config.enabled) return PolyTime.timeToTicks();
+        if (PolyTime.INSTANCE.config != null && PolyTime.INSTANCE.config.enabled)
+            return PolyTime.timeToTicks();
         return this.worldTime;
     }
 }
