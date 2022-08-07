@@ -16,15 +16,17 @@ public class TimeConfig extends Config {
     )
     public static float time = 12;
 
-    @Checkbox(
-            name = "Use IRL time",
-            size = 2
-    )
+    @Checkbox(name = "Use IRL time")
     public static boolean irlTime = false;
+
+    @Checkbox(name = "Use IRL lunar phase")
+    public static boolean irlLunarPhases = false;
+
     public TimeConfig() {
         super(new Mod("Time Changer", ModType.UTIL_QOL), PolyTime.MODID + ".json");
         initialize();
         addListener("irlTime", PolyTime::calculateSunriseSunset);
+        addListener("irlLunarPhases", PolyTime::calculateMoonPhases);
     }
 }
 

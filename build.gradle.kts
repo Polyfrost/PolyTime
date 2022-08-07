@@ -65,7 +65,7 @@ repositories {
 
 dependencies {
     modCompileOnly("cc.polyfrost:oneconfig-$platform:0.1.0-alpha+")
-    shade("com.luckycatlabs:SunriseSunsetCalculator:1.2")
+    shade("org.shredzone.commons:commons-suncalc:3.5")
 
     if (platform.isLegacyForge) {
         compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")
