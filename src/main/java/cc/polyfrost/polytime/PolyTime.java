@@ -84,7 +84,6 @@ public class PolyTime {
                 .timezone(Calendar.getInstance().getTimeZone())
                 .execute();
         // https://c.tadst.com/gfx/600x337/moon-phases-explained.png?1
-        System.out.println(illumination.getClosestPhase());
         switch (illumination.getClosestPhase()) {
             case FULL_MOON:
                 lunarPhase = 0;
