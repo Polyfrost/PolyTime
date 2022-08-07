@@ -59,11 +59,13 @@ sourceSets {
 }
 
 repositories {
+    mavenCentral()
     maven("https://repo.polyfrost.cc/releases")
 }
 
 dependencies {
     modCompileOnly("cc.polyfrost:oneconfig-$platform:0.1.0-alpha+")
+    shade("com.luckycatlabs:SunriseSunsetCalculator:1.2")
 
     if (platform.isLegacyForge) {
         compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")
@@ -107,14 +109,6 @@ tasks.processResources {
                 "mcVersionStr" to project.platform.mcVersionStr.substringBeforeLast(".") + ".x"
             )
         )
-    }
-}
-
-afterEvaluate {
-    if (rootProject.file("LICENSE-TEMPLATE").exists()) {
-        logger.error("-------------------------------------------------------")
-        logger.error("PLEASE REPLACE THE `LICENSE-TEMPLATE` FILE WITH YOUR OWN LICENSE")
-        logger.error("-------------------------------------------------------")
     }
 }
 

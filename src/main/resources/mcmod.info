@@ -5,10 +5,10 @@
     "description": "",
     "version": "${version}",
     "mcversion": "1.8.9",
-    "url": "",
-    "updateUrl": "",
+    "url": "https://github.com/Polyfrost/PolyTime",
+    "updateUrl": "https://github.com/Polyfrost/PolyTime",
     "authorList": [
-      "Your Name"
+      "DeDiamondPro"
     ],
     "credits": "",
     "logoFile": "",
