@@ -1,8 +1,10 @@
 package cc.polyfrost.polytime;
 
+import cc.polyfrost.oneconfig.utils.NetworkUtils;
 import cc.polyfrost.polytime.command.TimeCommand;
 import cc.polyfrost.polytime.config.TimeConfig;
 import cc.polyfrost.oneconfig.utils.commands.CommandManager;
+import com.google.gson.JsonObject;
 import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
 
@@ -25,7 +27,7 @@ public class PolyTime {
     public void onFMLInitialization(net.minecraftforge.fml.common.event.FMLInitializationEvent event) {
         config = new TimeConfig();
         CommandManager.INSTANCE.registerCommand(TimeCommand.class);
-        TimeConfig.fetchLocation();
+        calculateSunriseSunset();
     }
 
     // O-24000, starts at 6am
@@ -41,7 +43,12 @@ public class PolyTime {
     }
 
     public static void calculateSunriseSunset() {
-        Location location = new Location(TimeConfig.latitude, TimeConfig.longitude);
+        if (!TimeConfig.irlTime) return;
+        JsonObject json = NetworkUtils.getJsonElement("http://ip-api.com/json/").getAsJsonObject();
+        if (!json.has("lat") || !json.has("lon")) return;
+        double latitude = json.get("lat").getAsDouble();
+        double longitude = json.get("lon").getAsDouble();
+        Location location = new Location(latitude, longitude);
         SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, Calendar.getInstance().getTimeZone());
         sunrise = parse24HourTime(calculator.getCivilSunriseForDate(Calendar.getInstance()));
         sunset = parse24HourTime(calculator.getCivilSunsetForDate(Calendar.getInstance()));
