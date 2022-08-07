@@ -37,7 +37,7 @@ public class PolyTime {
         float currentTime = getCurrentTime();
         if (currentTime >= sunrise && currentTime <= sunset)
             return (long) (map(currentTime, sunrise, sunset, 5f, 19f) * 1000L) + 18000L;
-        return (long) (map(currentTime, sunset, sunrise, 19f, 5f) * 1000L) + 18000L;
+        return (long) (map(currentTime, sunset, sunrise, 19f, 29f) * 1000L) + 18000L;
     }
 
     public static void calculateSunriseSunset() {
@@ -48,7 +48,8 @@ public class PolyTime {
     }
 
     private static float parse24HourTime(String time) {
-        return Integer.parseInt(time.split(":")[0]) + Integer.parseInt(time.split(":")[1]) / 60f;
+        String[] split = time.split(":");
+        return Integer.parseInt(split[0]) + Integer.parseInt(split[1]) / 60f;
     }
 
     private static float getCurrentTime() {
