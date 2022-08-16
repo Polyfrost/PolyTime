@@ -3,9 +3,12 @@ package cc.polyfrost.polytime.mixin;
 import cc.polyfrost.polytime.PolyTime;
 import cc.polyfrost.polytime.config.TimeConfig;
 import net.minecraft.world.WorldProvider;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
+@SideOnly(Side.CLIENT)
 @Mixin(WorldProvider.class)
 public class WorldProviderMixin {
 
