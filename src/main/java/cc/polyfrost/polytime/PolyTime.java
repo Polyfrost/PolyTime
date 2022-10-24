@@ -31,7 +31,7 @@ public class PolyTime {
     @net.minecraftforge.fml.common.Mod.EventHandler
     public void onFMLInitialization(net.minecraftforge.fml.common.event.FMLInitializationEvent event) {
         config = new TimeConfig();
-        CommandManager.INSTANCE.registerCommand(TimeCommand.class);
+        CommandManager.INSTANCE.registerCommand(new TimeCommand());
         calculateSunriseSunset();
         calculateMoonPhases();
     }
