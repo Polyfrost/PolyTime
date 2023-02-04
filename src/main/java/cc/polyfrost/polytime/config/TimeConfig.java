@@ -23,7 +23,7 @@ public class TimeConfig extends Config {
     public static boolean irlLunarPhases = false;
 
     public TimeConfig() {
-        super(new Mod("Time Changer", ModType.UTIL_QOL, "/polytime_dark.svg"), PolyTime.MODID + ".json");
+        super(new Mod("Time Changer", ModType.UTIL_QOL, "/polytime_dark.svg"), PolyTime.MODID + ".json", false);
         initialize();
         addListener("irlTime", PolyTime::calculateSunriseSunset);
         addListener("irlLunarPhases", PolyTime::calculateMoonPhases);
