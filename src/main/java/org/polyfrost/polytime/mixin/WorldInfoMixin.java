@@ -1,16 +1,12 @@
-package cc.polyfrost.polytime.mixin;
+package org.polyfrost.polytime.mixin;
 
-import cc.polyfrost.polytime.PolyTime;
+import org.polyfrost.polytime.PolyTime;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @SideOnly(Side.CLIENT)
 @Mixin(WorldInfo.class)

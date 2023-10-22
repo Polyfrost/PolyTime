@@ -1,9 +1,9 @@
-package cc.polyfrost.polytime;
+package org.polyfrost.polytime;
 
 import cc.polyfrost.oneconfig.utils.NetworkUtils;
 import cc.polyfrost.oneconfig.utils.commands.CommandManager;
-import cc.polyfrost.polytime.command.TimeCommand;
-import cc.polyfrost.polytime.config.TimeConfig;
+import org.polyfrost.polytime.command.TimeCommand;
+import org.polyfrost.polytime.config.TimeConfig;
 import com.google.gson.JsonObject;
 import org.shredzone.commons.suncalc.MoonIllumination;
 import org.shredzone.commons.suncalc.SunTimes;

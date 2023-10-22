@@ -1,7 +1,7 @@
-package cc.polyfrost.polytime.mixin;
+package org.polyfrost.polytime.mixin;
 
-import cc.polyfrost.polytime.PolyTime;
-import cc.polyfrost.polytime.config.TimeConfig;
+import org.polyfrost.polytime.PolyTime;
+import org.polyfrost.polytime.config.TimeConfig;
 import net.minecraft.world.WorldProvider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

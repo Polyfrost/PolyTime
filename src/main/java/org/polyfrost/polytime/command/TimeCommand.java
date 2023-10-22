@@ -1,6 +1,6 @@
-package cc.polyfrost.polytime.command;
+package org.polyfrost.polytime.command;
 
-import cc.polyfrost.polytime.PolyTime;
+import org.polyfrost.polytime.PolyTime;
 import cc.polyfrost.oneconfig.utils.commands.annotations.Command;
 import cc.polyfrost.oneconfig.utils.commands.annotations.Main;
 

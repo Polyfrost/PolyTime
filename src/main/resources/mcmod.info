@@ -8,9 +8,10 @@
     "url": "https://github.com/Polyfrost/PolyTime",
     "updateUrl": "https://github.com/Polyfrost/PolyTime",
     "authorList": [
+      "Polyfrost",
       "DeDiamondPro"
     ],
-    "credits": "",
+    "credits": "Fyu for the original TimeChanger mod.",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []

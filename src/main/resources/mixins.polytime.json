@@ -1,7 +1,7 @@
 {
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
-  "package": "cc.polyfrost.polytime.mixin",
+  "package": "org.polyfrost.polytime.mixin",
   "refmap": "mixins.polytime.refmap.json",
   "verbose": true,
   "client": [

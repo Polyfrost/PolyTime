@@ -1,4 +1,4 @@
-package cc.polyfrost.polytime.config;
+package org.polyfrost.polytime.config;
 
 import cc.polyfrost.oneconfig.config.Config;
 import cc.polyfrost.oneconfig.config.annotations.Checkbox;
@@ -7,7 +7,7 @@ import cc.polyfrost.oneconfig.config.annotations.Slider;
 import cc.polyfrost.oneconfig.config.data.InfoType;
 import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
-import cc.polyfrost.polytime.PolyTime;
+import org.polyfrost.polytime.PolyTime;
 
 public class TimeConfig extends Config {
 
@@ -20,7 +20,8 @@ public class TimeConfig extends Config {
     @Slider(
             name = "Time",
             min = 0,
-            max = 24
+            max = 24,
+            instant = true
     )
     public static float time = 12;
 
