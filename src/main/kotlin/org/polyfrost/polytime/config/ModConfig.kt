@@ -6,7 +6,7 @@ import cc.polyfrost.oneconfig.config.data.*
 import org.polyfrost.polytime.PolyTime
 
 
-object ModConfig : Config(Mod(PolyTime.NAME, ModType.UTIL_QOL), "${PolyTime.MODID}.json") {
+object ModConfig : Config(Mod(PolyTime.NAME, ModType.UTIL_QOL, "/polytime_dark.svg"), "${PolyTime.MODID}.json") {
 
     @Info(
         text = "Credits to Fyu for the original TimeChanger mod.",
