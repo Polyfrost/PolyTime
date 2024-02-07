@@ -1,12 +1,10 @@
 package org.polyfrost.polytime.mixin;
 
+import org.polyfrost.polytime.config.ModConfig;
 import org.polyfrost.polytime.PolyTime;
 import net.minecraft.world.storage.WorldInfo;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import net.minecraftforge.fml.relauncher.*;
+import org.spongepowered.asm.mixin.*;
 
 @SideOnly(Side.CLIENT)
 @Mixin(WorldInfo.class)
@@ -17,8 +15,8 @@ public class WorldInfoMixin {
 
     @Overwrite
     public long getWorldTime() {
-        if (PolyTime.INSTANCE.config != null && PolyTime.INSTANCE.config.enabled)
-            return PolyTime.timeToTicks();
+        if (ModConfig.INSTANCE.enabled)
+            return PolyTime.INSTANCE.timeToTicks();
         return this.worldTime;
     }
 }
