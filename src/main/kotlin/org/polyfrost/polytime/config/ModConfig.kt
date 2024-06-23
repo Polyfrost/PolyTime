@@ -54,9 +54,9 @@ object ModConfig : Config(Mod(PolyTime.NAME, ModType.UTIL_QOL, "/polytime_dark.s
     init {
         initialize()
 
-        addDependency("irlTime", "") { !fastTime }
-        addDependency("time", "") { !irlTime && !fastTime }
-        addDependency("fastTime", "") { !irlTime }
-        addDependency("fastSpeed", "") { !irlTime && fastTime }
+        addDependency("irlTime", "Fast Time") { !fastTime }
+        addDependency("time", "IRL Time / Fast Time") { !irlTime && !fastTime }
+        addDependency("fastTime", "IRL Time") { !irlTime }
+        addDependency("fastSpeed", "IRL Time / Fast Time") { !irlTime && fastTime }
     }
 }
