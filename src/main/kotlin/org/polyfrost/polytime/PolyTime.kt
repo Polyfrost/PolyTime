@@ -53,7 +53,7 @@ object PolyTime {
     }
 
     fun calculateSunriseSunset() {
-        val json: JsonObject = NetworkUtils.getJsonElement("http://ip-api.com/json/").asJsonObject
+        val json: JsonObject = NetworkUtils.getJsonElement("http://ip-api.com/json/")?.asJsonObject ?: return
         if (!json.has("lat") || !json.has("lon")) return
         val latitude: Double = json.get("lat").asDouble
         val longitude: Double = json.get("lon").asDouble
