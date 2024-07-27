@@ -1,38 +1,42 @@
 package org.polyfrost.polytime.config
 
-import cc.polyfrost.oneconfig.config.Config
-import cc.polyfrost.oneconfig.config.annotations.*
-import cc.polyfrost.oneconfig.config.data.*
+
+import org.polyfrost.oneconfig.api.config.v1.Config
+import org.polyfrost.oneconfig.api.config.v1.annotations.Checkbox
+import org.polyfrost.oneconfig.api.config.v1.annotations.Slider
+import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
 import org.polyfrost.polytime.PolyTime
 
 
-object ModConfig : Config(Mod(PolyTime.NAME, ModType.UTIL_QOL, "/polytime_dark.svg"), "${PolyTime.MODID}.json") {
+object ModConfig : Config("${PolyTime.MODID}.json", "/polytime_dark.svg", PolyTime.NAME, Category.QOL) {
 
-    @Info(
-        text = "Credits to Fyu for the original TimeChanger mod.",
-        type = InfoType.INFO,
-        size = 2,
-        category = "Time"
+    // TODO
+    // @Info(
+    //     text = "Credits to Fyu for the original TimeChanger mod.",
+    //     type = InfoType.INFO,
+    //     size = 2,
+    //     category = "Time"
+    // )
+    // private var credits = false
+
+    @Switch(
+        title = "Enabled",
     )
-    private var credits = false
+    var enabled = false
 
     @Checkbox(
-        name = "Use IRL time",
-        category = "Time"
+        title = "Use IRL time",
     )
     var irlTime = false
 
     @Checkbox(
-        name = "Use IRL lunar phase",
-        category = "Time"
+        title = "Use IRL lunar phase",
     )
     var irlLunarPhases = false
 
     @Slider(
-        name = "Time",
+        title = "Time",
         min = 0f, max = 24f,
-        instant = true,
-        category = "Time"
     )
     var time = 12f
 
@@ -53,7 +57,7 @@ object ModConfig : Config(Mod(PolyTime.NAME, ModType.UTIL_QOL, "/polytime_dark.s
         get() = field.coerceIn(0.1f..10f)
 
     init {
-        initialize()
+        // initialize()
         addDependency("time", "IRL Time") { !irlTime }
         //addDependency("irlTime", "Fast Time") { !fastTime }
         //addDependency("time", "IRL Time / Fast Time") { !irlTime && !fastTime }

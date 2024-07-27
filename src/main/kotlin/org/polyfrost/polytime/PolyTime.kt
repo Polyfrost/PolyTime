@@ -1,24 +1,30 @@
 package org.polyfrost.polytime
 
-import cc.polyfrost.oneconfig.utils.NetworkUtils
-import cc.polyfrost.oneconfig.utils.commands.CommandManager
 import com.google.gson.JsonObject
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
+import org.polyfrost.oneconfig.api.commands.v1.CommandManager
+import org.polyfrost.oneconfig.utils.v1.JsonUtils
+import org.polyfrost.oneconfig.utils.v1.NetworkUtils
 import org.polyfrost.polytime.config.ModConfig
 import org.polyfrost.polytime.command.TimeCommand
 import org.shredzone.commons.suncalc.*
 import java.time.ZonedDateTime
 import java.util.*
 
-@Mod(modid = PolyTime.MODID, name = PolyTime.NAME, version = PolyTime.VERSION, modLanguageAdapter = "cc.polyfrost.oneconfig.utils.KotlinLanguageAdapter")
+@Mod(
+    modid = PolyTime.MODID,
+    name = PolyTime.NAME,
+    version = PolyTime.VERSION,
+    modLanguageAdapter = "org.polyfrost.oneconfig.utils.v1.forge.KotlinLanguageAdapter"
+)
 object PolyTime {
 
     @Mod.EventHandler
     fun onFMLInitialization(event: FMLInitializationEvent?) {
         ModConfig
-        CommandManager.INSTANCE.registerCommand(TimeCommand)
+        CommandManager.registerCommand(TimeCommand)
         calculateSunriseSunset()
         calculateMoonPhases()
     }
@@ -53,7 +59,8 @@ object PolyTime {
     }
 
     fun calculateSunriseSunset() {
-        val json: JsonObject = NetworkUtils.getJsonElement("http://ip-api.com/json/")?.asJsonObject ?: return
+        val json: JsonObject =
+            NetworkUtils.getString("http://ip-api.com/json/")?.let { JsonUtils.parse(it) }?.asJsonObject ?: return
         if (!json.has("lat") || !json.has("lon")) return
         val latitude: Double = json.get("lat").asDouble
         val longitude: Double = json.get("lon").asDouble
@@ -100,10 +107,18 @@ object PolyTime {
 
     private fun getCurrentTime(): Float {
         val calendar: Calendar = Calendar.getInstance()
-        return calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE) / 60f + calendar.get(Calendar.SECOND) / 3600f + calendar.get(Calendar.MILLISECOND) / 3600000f
+        return calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE) / 60f + calendar.get(Calendar.SECOND) / 3600f + calendar.get(
+            Calendar.MILLISECOND
+        ) / 3600000f
     }
 
-    private fun realTimeToMinecraftTime(currentTime: Float, periodStart: Float, periodEnd: Float, mcStart: Float, mcEnd: Float): Long {
+    private fun realTimeToMinecraftTime(
+        currentTime: Float,
+        periodStart: Float,
+        periodEnd: Float,
+        mcStart: Float,
+        mcEnd: Float
+    ): Long {
         var currentTime = currentTime
         var periodEnd = periodEnd
         var mcEnd = mcEnd

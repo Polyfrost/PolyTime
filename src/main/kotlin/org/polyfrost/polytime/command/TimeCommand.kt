@@ -1,13 +1,14 @@
 package org.polyfrost.polytime.command
 
-import cc.polyfrost.oneconfig.utils.commands.annotations.*
+import org.polyfrost.oneconfig.api.commands.v1.factories.annotated.Command
 import org.polyfrost.polytime.config.ModConfig
 import org.polyfrost.polytime.PolyTime
 
-@Command(value = PolyTime.MODID, description = "Access the " + PolyTime.NAME + " GUI.", aliases = ["timechanger"])
+@Command(PolyTime.MODID, "timechanger")
 object TimeCommand {
-    @Main
+    @Command
     private fun main() {
-        ModConfig.openGui()
+        // TODO
+        // ModConfig.openGui()
     }
 }

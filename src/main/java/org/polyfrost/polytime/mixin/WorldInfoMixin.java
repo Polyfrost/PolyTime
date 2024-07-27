@@ -15,7 +15,7 @@ public class WorldInfoMixin {
 
     @Overwrite
     public long getWorldTime() {
-        if (ModConfig.INSTANCE.enabled)
+        if (ModConfig.INSTANCE.getEnabled())
             return PolyTime.INSTANCE.timeToTicks();
         return this.worldTime;
     }
