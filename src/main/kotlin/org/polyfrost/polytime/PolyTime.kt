@@ -2,8 +2,6 @@ package org.polyfrost.polytime
 
 import com.google.gson.JsonObject
 import net.minecraft.client.Minecraft
-import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import org.polyfrost.oneconfig.api.commands.v1.CommandManager
 import org.polyfrost.oneconfig.utils.v1.JsonUtils
 import org.polyfrost.oneconfig.utils.v1.NetworkUtils
@@ -13,16 +11,9 @@ import org.shredzone.commons.suncalc.*
 import java.time.ZonedDateTime
 import java.util.*
 
-@Mod(
-    modid = PolyTime.MODID,
-    name = PolyTime.NAME,
-    version = PolyTime.VERSION,
-    modLanguageAdapter = "org.polyfrost.oneconfig.utils.v1.forge.KotlinLanguageAdapter"
-)
 object PolyTime {
 
-    @Mod.EventHandler
-    fun onFMLInitialization(event: FMLInitializationEvent?) {
+    fun initialize() {
         ModConfig
         CommandManager.registerCommand(TimeCommand)
         calculateSunriseSunset()
