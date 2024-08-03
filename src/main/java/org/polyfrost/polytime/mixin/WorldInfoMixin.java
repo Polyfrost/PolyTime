@@ -32,7 +32,7 @@ public class WorldInfoMixin {
     //$$ private long timeOfDay;
     //$$
     //$$ @Overwrite
-    //$$ //#if FABRIC == 1 || MC != 11605
+    //$$ //#if FABRIC == 1
     //$$ public long getTimeOfDay() {
     //$$ //#else
     //$$ //$$ public long getDayTime() {
