@@ -3,17 +3,19 @@ package org.polyfrost.polytime
 //#if FORGE == 1
 
 import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.common.event.FMLInitializationEvent
 
+//#if MC <= 11202
 @Mod(
     modid = PolyTime.MODID,
     name = PolyTime.NAME,
     version = PolyTime.VERSION,
-    //modLanguageAdapter = "org.polyfrost.oneconfig.utils.v1.forge.KotlinLanguageAdapter"
 )
+//#else
+//$$ @Mod(PolyTime.MODID)
+//#endif
 class PolyTimeForge {
-    @Mod.EventHandler
-    fun onFMLInitialization(event: FMLInitializationEvent?) {
+
+    init {
         PolyTime.initialize()
     }
 }

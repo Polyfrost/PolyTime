@@ -40,21 +40,21 @@ object ModConfig : Config("${PolyTime.MODID}.json", "/polytime_dark.svg", PolyTi
     )
     var time = 12f
 
-    //@Switch(
-    //    name = "Fast Time",
-    //    category = "Time"
-    //)
-    var fastTime = false
-        get() = false
+    // @Switch(
+    //     name = "Fast Time",
+    //     category = "Time"
+    // )
+    // var fastTime = false
+    //     get() = false
 
-    //@Slider(
-    //    name = "Speed",
-    //    min = 0.1f, max = 10f,
-    //    instant = true,
-    //    category = "Time"
-    //)
-    var fastSpeed = 1f
-        get() = field.coerceIn(0.1f..10f)
+    // @Slider(
+    //     name = "Speed",
+    //     min = 0.1f, max = 10f,
+    //     instant = true,
+    //     category = "Time"
+    // )
+    // var fastSpeed = 1f
+    //     get() = field.coerceIn(0.1f..10f)
 
     init {
         // initialize()

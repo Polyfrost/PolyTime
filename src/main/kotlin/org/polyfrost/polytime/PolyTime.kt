@@ -1,13 +1,14 @@
 package org.polyfrost.polytime
 
 import com.google.gson.JsonObject
-import net.minecraft.client.Minecraft
 import org.polyfrost.oneconfig.api.commands.v1.CommandManager
 import org.polyfrost.oneconfig.utils.v1.JsonUtils
 import org.polyfrost.oneconfig.utils.v1.NetworkUtils
-import org.polyfrost.polytime.config.ModConfig
 import org.polyfrost.polytime.command.TimeCommand
-import org.shredzone.commons.suncalc.*
+import org.polyfrost.polytime.config.ModConfig
+import org.shredzone.commons.suncalc.MoonIllumination
+import org.shredzone.commons.suncalc.MoonPhase
+import org.shredzone.commons.suncalc.SunTimes
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -37,7 +38,8 @@ object PolyTime {
     // 5 -> sunrise
     // 19 -> sunset
     fun timeToTicks(): Long {
-        if (!ModConfig.irlTime && ModConfig.fastTime) return (Minecraft.getSystemTime() % (24000 / ModConfig.fastSpeed) * ModConfig.fastSpeed).toLong()
+        // Currently unused:
+        // if (!ModConfig.irlTime && ModConfig.fastTime) return (Minecraft.getSystemTime() % (24000 / ModConfig.fastSpeed) * ModConfig.fastSpeed).toLong()
 
         if (!ModConfig.irlTime || !gotData) return timeToMcTime(ModConfig.time)
         if (alwaysUp) return 6000L
