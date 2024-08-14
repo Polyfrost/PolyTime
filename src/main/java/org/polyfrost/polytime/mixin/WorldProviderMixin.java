@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.*;
 //#if MC <= 11202
 import net.minecraft.world.WorldProvider;
 //#else
-//$$ import net.minecraft.world.dimension.DimensionType;
+//$$ import net.minecraft.world.level.dimension.DimensionType;
 //#endif
 
 //#if MC <= 11202
@@ -18,7 +18,13 @@ import net.minecraft.world.WorldProvider;
 public class WorldProviderMixin {
 
     @Overwrite
-    public int getMoonPhase(long worldTime) {
+    public int
+    //#if MC <= 11202
+    getMoonPhase
+    //#else
+    //$$ moonPhase
+    //#endif
+            (long worldTime) {
         if (ModConfig.INSTANCE.getEnabled() && ModConfig.INSTANCE.getIrlLunarPhases())
             return PolyTime.INSTANCE.getLunarPhase();
         return (int) (worldTime / 24000L % 8L + 8L) % 8;

@@ -7,13 +7,13 @@ import org.spongepowered.asm.mixin.*;
 //#if MC <= 11202
 import net.minecraft.world.storage.WorldInfo;
 //#else
-//$$ import net.minecraft.client.world.ClientWorld;
+//$$ import net.minecraft.client.multiplayer.ClientLevel;
 //#endif
 
 //#if MC <= 11202
 @Mixin(WorldInfo.class)
 //#else
-//$$ @Mixin(ClientWorld.Properties.class)
+//$$ @Mixin(ClientLevel.ClientLevelData.class)
 //#endif
 public class WorldInfoMixin {
 
@@ -29,17 +29,13 @@ public class WorldInfoMixin {
     }
     //#else
     //$$ @Shadow
-    //$$ private long timeOfDay;
+    //$$ private long dayTime;
     //$$
     //$$ @Overwrite
-    //$$ //#if FABRIC == 1
-    //$$ public long getTimeOfDay() {
-    //$$ //#else
-    //$$ //$$ public long getDayTime() {
-    //$$ //#endif
+    //$$ public long getDayTime() {
     //$$     if (ModConfig.INSTANCE.getEnabled())
     //$$         return PolyTime.INSTANCE.timeToTicks();
-    //$$     return this.timeOfDay;
+    //$$     return this.dayTime;
     //$$ }
     //#endif
 }

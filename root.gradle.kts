@@ -5,6 +5,7 @@ plugins {
 }
 
 preprocess {
+    strictExtraMappings.set(true)
     val fabric10809 = createNode("1.8.9-fabric", 10809, "yarn")
     val fabric11202 = createNode("1.12.2-fabric", 11202, "yarn")
     val fabric11605 = createNode("1.16.5-fabric", 11605, "yarn")
