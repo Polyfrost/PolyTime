@@ -4,13 +4,13 @@ import org.polyfrost.polytime.config.ModConfig;
 import org.polyfrost.polytime.PolyTime;
 import org.spongepowered.asm.mixin.*;
 
-//#if MC <= 11202
+//#if MODERN == 0
 import net.minecraft.world.WorldProvider;
 //#else
 //$$ import net.minecraft.world.level.dimension.DimensionType;
 //#endif
 
-//#if MC <= 11202
+//#if MODERN == 0
 @Mixin(WorldProvider.class)
 //#else
 //$$ @Mixin(DimensionType.class)
@@ -19,7 +19,7 @@ public class WorldProviderMixin {
 
     @Overwrite
     public int
-    //#if MC <= 11202
+    //#if MODERN == 0
     getMoonPhase
     //#else
     //$$ moonPhase

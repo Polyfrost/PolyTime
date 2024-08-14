@@ -1,6 +1,6 @@
 package org.polyfrost.polytime
 
-//#if FABRIC==1
+//#if FABRIC
 //$$
 //$$ import net.fabricmc.api.ClientModInitializer
 //$$

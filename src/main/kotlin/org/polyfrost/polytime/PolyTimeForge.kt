@@ -1,10 +1,10 @@
 package org.polyfrost.polytime
 
-//#if FORGE == 1
+//#if FORGE
 
 import net.minecraftforge.fml.common.Mod
 
-//#if MC <= 11202
+//#if MODERN == 0
 @Mod(
     modid = PolyTime.MODID,
     name = PolyTime.NAME,
