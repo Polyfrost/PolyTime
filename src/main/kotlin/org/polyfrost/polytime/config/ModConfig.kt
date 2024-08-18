@@ -61,14 +61,12 @@ object ModConfig : Config("${PolyTime.MODID}.json", "/polytime_dark.svg", PolyTi
     @Keybind(
         title = "Forward Key Bind",
         description = "Moves time forwards when pressed.",
-        category = "Time"
     )
     var forwardKeyBind = KeybindHelper.builder().keys(UKeyboard.KEY_RBRACKET).does { if (time < 24) time += 0.5f }.register()
 
     @Keybind(
         title = "Backward Key Bind",
         description = "Moves time backwards when pressed.",
-        category = "Time"
     )
     var backwardKeybind = KeybindHelper.builder().keys(UKeyboard.KEY_LBRACKET).does { if (time > 0) time -= 0.5f }.register()
 
