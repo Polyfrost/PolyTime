@@ -1,12 +1,14 @@
 package org.polyfrost.polytime.config
 
-
 import org.polyfrost.oneconfig.api.config.v1.Config
 import org.polyfrost.oneconfig.api.config.v1.annotations.Checkbox
+import org.polyfrost.oneconfig.api.config.v1.annotations.Keybind
 import org.polyfrost.oneconfig.api.config.v1.annotations.Slider
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
+import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindHelper
+import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindManager.registerKeybind
 import org.polyfrost.polytime.PolyTime
-
+import org.polyfrost.universal.UKeyboard
 
 object ModConfig : Config("${PolyTime.MODID}.json", "/polytime_dark.svg", PolyTime.NAME, Category.QOL) {
 
@@ -56,6 +58,18 @@ object ModConfig : Config("${PolyTime.MODID}.json", "/polytime_dark.svg", PolyTi
     // var fastSpeed = 1f
     //     get() = field.coerceIn(0.1f..10f)
 
+    @Keybind(
+        title = "Forward Key Bind",
+        description = "Moves time forwards when pressed.",
+    )
+    var forwardKeyBind = KeybindHelper.builder().keys(UKeyboard.KEY_RBRACKET).does { if (time < 24) time += 0.5f }.register()
+
+    @Keybind(
+        title = "Backward Key Bind",
+        description = "Moves time backwards when pressed.",
+    )
+    var backwardKeybind = KeybindHelper.builder().keys(UKeyboard.KEY_LBRACKET).does { if (time > 0) time -= 0.5f }.register()
+
     init {
         // initialize()
         addDependency("time", "IRL Time") { !irlTime }
@@ -63,5 +77,10 @@ object ModConfig : Config("${PolyTime.MODID}.json", "/polytime_dark.svg", PolyTi
         //addDependency("time", "IRL Time / Fast Time") { !irlTime && !fastTime }
         //addDependency("fastTime", "IRL Time") { !irlTime }
         //addDependency("fastSpeed", "IRL Time / Fast Time") { !irlTime && fastTime }
+
+        registerKeybind(forwardKeyBind)
+        addDependency("forwardKeyBind", "IRL Time") { !irlTime }
+        registerKeybind(backwardKeybind)
+        addDependency("backwardKeybind", "IRL Time") { !irlTime }
     }
 }
