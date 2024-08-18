@@ -2,7 +2,9 @@ package org.polyfrost.polytime.config
 
 import cc.polyfrost.oneconfig.config.Config
 import cc.polyfrost.oneconfig.config.annotations.*
+import cc.polyfrost.oneconfig.config.core.OneKeyBind
 import cc.polyfrost.oneconfig.config.data.*
+import cc.polyfrost.oneconfig.libs.universal.UKeyboard
 import org.polyfrost.polytime.PolyTime
 
 
@@ -52,12 +54,32 @@ object ModConfig : Config(Mod(PolyTime.NAME, ModType.UTIL_QOL, "/polytime_dark.s
     var fastSpeed = 1f
         get() = field.coerceIn(0.1f..10f)
 
+    @KeyBind(
+        name = "Forward Key Bind",
+        description = "Moves time forwards when pressed.",
+        category = "Time"
+    )
+    var forwardKeyBind: OneKeyBind = OneKeyBind(UKeyboard.KEY_RBRACKET)
+
+    @KeyBind(
+        name = "Backward Key Bind",
+        description = "Moves time backwards when pressed.",
+        category = "Time"
+    )
+    var backwardKeybind: OneKeyBind = OneKeyBind(UKeyboard.KEY_LBRACKET)
+
     init {
         initialize()
         addDependency("time", "IRL Time") { !irlTime }
+
         //addDependency("irlTime", "Fast Time") { !fastTime }
         //addDependency("time", "IRL Time / Fast Time") { !irlTime && !fastTime }
         //addDependency("fastTime", "IRL Time") { !irlTime }
         //addDependency("fastSpeed", "IRL Time / Fast Time") { !irlTime && fastTime }
+
+        registerKeyBind(forwardKeyBind) { if (time < 24) time += 0.5f; }
+        addDependency("forwardKeyBind", "IRL Time") { !irlTime }
+        registerKeyBind(backwardKeybind) { if (time > 0) time -= 0.5f; }
+        addDependency("backwardKeybind", "IRL Time") { !irlTime }
     }
 }
