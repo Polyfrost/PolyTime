@@ -21,9 +21,9 @@ object PolyTime {
         calculateMoonPhases()
     }
 
-    const val MODID: String = "@ID@"
-    const val NAME: String = "@NAME@"
-    const val VERSION: String = "@VER@"
+    const val MODID: String = "@MOD_ID@"
+    const val NAME: String = "@MOD_NAME@"
+    const val VERSION: String = "@MOD_VERSION@"
 
     var lunarPhase: Int = 0
     private var gotData = false

@@ -1,12 +1,14 @@
 package org.polyfrost.polytime.config
 
 import org.polyfrost.oneconfig.api.config.v1.Config
+import org.polyfrost.oneconfig.api.config.v1.Property
 import org.polyfrost.oneconfig.api.config.v1.annotations.Checkbox
 import org.polyfrost.oneconfig.api.config.v1.annotations.Keybind
 import org.polyfrost.oneconfig.api.config.v1.annotations.Slider
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
 import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindManager.registerKeybind
 import org.polyfrost.polytime.PolyTime
+import org.polyfrost.polyui.input.KeybindHelper
 import org.polyfrost.universal.UKeyboard
 
 object ModConfig : Config("${PolyTime.MODID}.json", PolyTime.NAME, Category.QOL) { // TODO: Fix mod
@@ -61,25 +63,25 @@ object ModConfig : Config("${PolyTime.MODID}.json", PolyTime.NAME, Category.QOL)
         title = "Forward Key Bind",
         description = "Moves time forwards when pressed.",
     )
-    var forwardKeyBind = KeybindHelper.builder().keys(UKeyboard.KEY_RBRACKET).does(Runnable { if (time < 24) time += 0.5f }).register()
+    var forwardKeyBind = KeybindHelper.builder().keys(UKeyboard.KEY_RBRACKET).does { if (time < 24) time += 0.5f }.build()
 
     @Keybind(
         title = "Backward Key Bind",
         description = "Moves time backwards when pressed.",
     )
-    var backwardKeybind = KeybindHelper.builder().keys(UKeyboard.KEY_LBRACKET).does(Runnable { if (time > 0) time -= 0.5f }).register()
+    var backwardKeybind = KeybindHelper.builder().keys(UKeyboard.KEY_LBRACKET).does { if (time > 0) time -= 0.5f }.build()
 
     init {
         // initialize()
-        addDependency("time", "IRL Time") { !irlTime }
+        addDependency("time", "IRL Time") { if (!irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
         //addDependency("irlTime", "Fast Time") { !fastTime }
         //addDependency("time", "IRL Time / Fast Time") { !irlTime && !fastTime }
         //addDependency("fastTime", "IRL Time") { !irlTime }
         //addDependency("fastSpeed", "IRL Time / Fast Time") { !irlTime && fastTime }
 
         registerKeybind(forwardKeyBind)
-        addDependency("forwardKeyBind", "IRL Time") { !irlTime }
+        addDependency("forwardKeyBind", "IRL Time") { if (!irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
         registerKeybind(backwardKeybind)
-        addDependency("backwardKeybind", "IRL Time") { !irlTime }
+        addDependency("backwardKeybind", "IRL Time") { if (!irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
     }
 }
