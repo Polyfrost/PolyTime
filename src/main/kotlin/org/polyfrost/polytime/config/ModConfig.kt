@@ -5,12 +5,11 @@ import org.polyfrost.oneconfig.api.config.v1.annotations.Checkbox
 import org.polyfrost.oneconfig.api.config.v1.annotations.Keybind
 import org.polyfrost.oneconfig.api.config.v1.annotations.Slider
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
-import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindHelper
 import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindManager.registerKeybind
 import org.polyfrost.polytime.PolyTime
 import org.polyfrost.universal.UKeyboard
 
-object ModConfig : Config("${PolyTime.MODID}.json", PolyTime.NAME, Category.QOL) {
+object ModConfig : Config("${PolyTime.MODID}.json", PolyTime.NAME, Category.QOL) { // TODO: Fix mod
 
     // TODO
     // @Info(
