@@ -1,4 +1,4 @@
-package org.polyfrost.polytime.config
+package org.polyfrost.polytime.client
 
 import org.polyfrost.oneconfig.api.config.v1.Config
 import org.polyfrost.oneconfig.api.config.v1.Property
@@ -7,11 +7,10 @@ import org.polyfrost.oneconfig.api.config.v1.annotations.Keybind
 import org.polyfrost.oneconfig.api.config.v1.annotations.Slider
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
 import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindManager.registerKeybind
-import org.polyfrost.polytime.PolyTime
 import org.polyfrost.polyui.input.KeybindHelper
 import org.polyfrost.universal.UKeyboard
 
-object ModConfig : Config("${PolyTime.MODID}.json", PolyTime.NAME, Category.QOL) { // TODO: Fix mod
+object PolyTimeConfig : Config("${PolyTime.MODID}.json", PolyTime.NAME, Category.QOL) { // TODO: Fix mod
 
     // TODO
     // @Info(
@@ -25,7 +24,7 @@ object ModConfig : Config("${PolyTime.MODID}.json", PolyTime.NAME, Category.QOL)
     @Switch(
         title = "Enabled",
     )
-    var enabled = false
+    var enabled = true
 
     @Checkbox(
         title = "Use IRL time",

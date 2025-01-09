@@ -1,7 +1,7 @@
 package org.polyfrost.polytime.mixin;
 
-import org.polyfrost.polytime.config.ModConfig;
-import org.polyfrost.polytime.PolyTime;
+import org.polyfrost.polytime.client.PolyTimeClient;
+import org.polyfrost.polytime.client.PolyTimeConfig;
 import org.spongepowered.asm.mixin.*;
 
 //#if MODERN==0
@@ -21,10 +21,16 @@ public class WorldInfoMixin {
     @Shadow
     private long worldTime;
 
+    /**
+     * @author Deftu
+     * @reason Replace the world time with the PolyTime time
+     */
     @Overwrite
     public long getWorldTime() {
-        if (ModConfig.INSTANCE.getEnabled())
-            return PolyTime.INSTANCE.timeToTicks();
+        if (PolyTimeConfig.INSTANCE.getEnabled()) {
+            return PolyTimeClient.getCurrentTime();
+        }
+
         return this.worldTime;
     }
     //#else
@@ -33,8 +39,10 @@ public class WorldInfoMixin {
     //$$
     //$$ @Overwrite
     //$$ public long getDayTime() {
-    //$$     if (ModConfig.INSTANCE.getEnabled())
-    //$$         return PolyTime.INSTANCE.timeToTicks();
+    //$$     if (PolyTimeConfig.INSTANCE.getEnabled()) {
+    //$$         return PolyTimeClient.getCurrentTime();
+    //$$     }
+    //$$
     //$$     return this.dayTime;
     //$$ }
     //#endif

@@ -17,7 +17,7 @@ plugins {
 
 toolkitLoomHelper {
     useOneConfig {
-        version = "1.0.0-alpha.49"
+        version = "1.0.0-alpha.55"
         loaderVersion = "1.1.0-alpha.35"
 
         usePolyMixin = true
@@ -45,7 +45,7 @@ toolkitLoomHelper {
 }
 
 dependencies {
-    implementation(shade("org.shredzone.commons:commons-suncalc:3.5")!!)
+    implementation(shade("dev.deftu:commons-suncalc:0.1.0")!!)
 
     // Add Fabric Language Kotlin and (Legacy) Fabric API as dependencies (these are both optional but are particularly useful).
     if (mcData.isFabric) {

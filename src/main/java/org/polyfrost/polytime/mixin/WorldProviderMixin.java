@@ -1,7 +1,7 @@
 package org.polyfrost.polytime.mixin;
 
-import org.polyfrost.polytime.config.ModConfig;
-import org.polyfrost.polytime.PolyTime;
+import org.polyfrost.polytime.client.PolyTimeConfig;
+import org.polyfrost.polytime.client.realtime.RealTimeHandler;
 import org.spongepowered.asm.mixin.*;
 
 //#if MODERN == 0
@@ -17,6 +17,10 @@ import net.minecraft.world.WorldProvider;
 //#endif
 public class WorldProviderMixin {
 
+    /**
+     * @author Deftu
+     * @reason Implements lunar phases
+     */
     @Overwrite
     public int
     //#if MODERN == 0
@@ -25,8 +29,10 @@ public class WorldProviderMixin {
     //$$ moonPhase
     //#endif
             (long worldTime) {
-        if (ModConfig.INSTANCE.getEnabled() && ModConfig.INSTANCE.getIrlLunarPhases())
-            return PolyTime.INSTANCE.getLunarPhase();
+        if (PolyTimeConfig.INSTANCE.getEnabled() && PolyTimeConfig.INSTANCE.getIrlLunarPhases()) {
+            return RealTimeHandler.getCurrentLunarPhase();
+        }
+
         return (int) (worldTime / 24000L % 8L + 8L) % 8;
     }
 }
