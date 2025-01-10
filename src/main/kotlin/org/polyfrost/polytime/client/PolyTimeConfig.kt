@@ -72,16 +72,11 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", PolyTimeConstants
     var backwardKeybind = KeybindHelper.builder().keys(UKeyboard.KEY_LBRACKET).does { if (time > 0) time -= 0.5f }.build()
 
     init {
-        // initialize()
-        addDependency("time", "IRL Time") { if (!irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
-        //addDependency("irlTime", "Fast Time") { !fastTime }
-        //addDependency("time", "IRL Time / Fast Time") { !irlTime && !fastTime }
-        //addDependency("fastTime", "IRL Time") { !irlTime }
-        //addDependency("fastSpeed", "IRL Time / Fast Time") { !irlTime && fastTime }
+        addDependency("time", "IRL Time") { if (irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
 
         registerKeybind(forwardKeyBind)
-        addDependency("forwardKeyBind", "IRL Time") { if (!irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
+        addDependency("forwardKeyBind", "IRL Time") { if (irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
         registerKeybind(backwardKeybind)
-        addDependency("backwardKeybind", "IRL Time") { if (!irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
+        addDependency("backwardKeybind", "IRL Time") { if (irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
     }
 }

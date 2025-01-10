@@ -15,6 +15,8 @@ object RealTimeHandler {
 
     private val logger = LogManager.getLogger(RealTimeHandler::class.java)
 
+    private var currentlyUpdating = false
+
     private lateinit var data: RealTimeData
 
     @JvmStatic
@@ -65,6 +67,12 @@ object RealTimeHandler {
     }
 
     private fun populate() {
+        if (currentlyUpdating) {
+            return
+        }
+
+        currentlyUpdating = true
+
         val (latitude, longitude) = obtainLongitudeLatitude() ?: return
         val times = SunTimes.compute()
             .at(latitude, longitude)
@@ -93,6 +101,8 @@ object RealTimeHandler {
         }
 
         logger.info("Obtained lunar phase: $currentLunarPhase")
+
+        currentlyUpdating = false
     }
 
     private fun obtainLongitudeLatitude(): Pair<Double, Double>? {
