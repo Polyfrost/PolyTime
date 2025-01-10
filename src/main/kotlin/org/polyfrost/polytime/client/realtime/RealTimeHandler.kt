@@ -47,10 +47,10 @@ object RealTimeHandler {
 
                     val irlTime = irlTime // Caches the value
                     return when {
-                        irlTime.isWithinPeriod(data.sunrise, data.noon) -> currentTime.calculateMappedTime(data.sunrise, data.noon, 5f, 12f)
-                        irlTime.isWithinPeriod(data.noon, data.sunset) -> currentTime.calculateMappedTime(data.noon, data.sunset, 12f, 19f)
-                        irlTime.isWithinPeriod(data.sunset, data.nadir) -> currentTime.calculateMappedTime(data.sunset, data.nadir, 19f, 0f)
-                        else -> currentTime.calculateMappedTime(data.nadir, data.sunrise, 0f, 5f)
+                        irlTime.isWithinPeriod(data.sunrise, data.noon) -> irlTime.calculateMappedTime(data.sunrise, data.noon, 5f, 12f)
+                        irlTime.isWithinPeriod(data.noon, data.sunset) -> irlTime.calculateMappedTime(data.noon, data.sunset, 12f, 19f)
+                        irlTime.isWithinPeriod(data.sunset, data.nadir) -> irlTime.calculateMappedTime(data.sunset, data.nadir, 19f, 0f)
+                        else -> irlTime.calculateMappedTime(data.nadir, data.sunrise, 0f, 5f)
                     }
                 }
             }
@@ -72,7 +72,8 @@ object RealTimeHandler {
             .oneDay()
             .timezone(Calendar.getInstance().timeZone)
             .execute()
-        data = RealTimeData(times.isAlwaysUp, times.isAlwaysDown, times)
+        data = RealTimeData.from(times) ?: return logger.error("Failed to obtain real-time data")
+        logger.info("Obtained real-time data: $data")
 
         val illumination = MoonIllumination.compute()
             .at(latitude, longitude)
@@ -90,6 +91,8 @@ object RealTimeHandler {
             MoonPhase.Phase.WAXING_GIBBOUS -> 7
             else -> 0
         }
+
+        logger.info("Obtained lunar phase: $currentLunarPhase")
     }
 
     private fun obtainLongitudeLatitude(): Pair<Double, Double>? {

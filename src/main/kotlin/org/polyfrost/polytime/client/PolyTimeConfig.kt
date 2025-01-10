@@ -7,10 +7,11 @@ import org.polyfrost.oneconfig.api.config.v1.annotations.Keybind
 import org.polyfrost.oneconfig.api.config.v1.annotations.Slider
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
 import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindManager.registerKeybind
+import org.polyfrost.polytime.PolyTimeConstants
 import org.polyfrost.polyui.input.KeybindHelper
 import org.polyfrost.universal.UKeyboard
 
-object PolyTimeConfig : Config("${PolyTime.MODID}.json", PolyTime.NAME, Category.QOL) { // TODO: Fix mod
+object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", PolyTimeConstants.NAME, Category.QOL) { // TODO: Fix mod
 
     // TODO
     // @Info(

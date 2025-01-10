@@ -13,9 +13,26 @@ data class RealTimeData(
     val nadir: Float
 ) {
 
-    private companion object {
+    companion object {
 
         private val logger = LogManager.getLogger(RealTimeData::class.java)
+
+        @JvmStatic
+        fun from(times: SunTimes): RealTimeData? {
+            val sunrise = times.rise ?: return null.also { logger.error("Sunrise time is null") }
+            val sunset = times.set ?: return null.also { logger.error("Sunset time is null") }
+            val noon = times.noon ?: return null.also { logger.error("Noon time is null") }
+            val nadir = times.nadir ?: return null.also { logger.error("Nadir time is null") }
+
+            return RealTimeData(
+                times.isAlwaysUp,
+                times.isAlwaysDown,
+                sunrise,
+                sunset,
+                noon,
+                nadir
+            )
+        }
 
         private fun ZonedDateTime.parse(): Float {
             return hour + minute / 60f + second / 3600f
@@ -37,19 +54,6 @@ data class RealTimeData(
         sunset.parse(),
         noon.parse(),
         nadir.parse()
-    )
-
-    constructor(
-        isAlwaysUp: Boolean,
-        isAlwaysDown: Boolean,
-        times: SunTimes
-    ) : this(
-        isAlwaysUp,
-        isAlwaysDown,
-        times.rise ?: return logger.error("Sunrise time is null"),
-        times.set ?: return logger.error("Sunset time is null"),
-        times.noon ?: return logger.error("Noon time is null"),
-        times.nadir ?: return logger.error("Nadir time is null")
     )
 
 }
