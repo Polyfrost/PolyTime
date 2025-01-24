@@ -4,20 +4,20 @@ import org.polyfrost.polytime.client.PolyTimeClient;
 import org.polyfrost.polytime.client.PolyTimeConfig;
 import org.spongepowered.asm.mixin.*;
 
-//#if MODERN==0
+//#if MC <= 1.12.2
 import net.minecraft.world.storage.WorldInfo;
 //#else
 //$$ import net.minecraft.client.multiplayer.ClientLevel;
 //#endif
 
-//#if MODERN == 0
+//#if MC <= 1.12.2
 @Mixin(WorldInfo.class)
 //#else
 //$$ @Mixin(ClientLevel.ClientLevelData.class)
 //#endif
 public class WorldInfoMixin {
 
-    //#if MODERN == 0
+    //#if MC <= 1.12.2
     @Shadow
     private long worldTime;
 

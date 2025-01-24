@@ -73,7 +73,7 @@ object RealTimeHandler {
 
         currentlyUpdating = true
 
-        val (latitude, longitude) = obtainLongitudeLatitude() ?: return
+        val (longitude, latitude) = obtainLongitudeLatitude() ?: return
         val times = SunTimes.compute()
             .at(latitude, longitude)
             .today()
@@ -118,9 +118,9 @@ object RealTimeHandler {
         }
 
         try {
-            val latitude = json.get("lat").asDouble
             val longitude = json.get("lon").asDouble
-            return Pair(latitude, longitude)
+            val latitude = json.get("lat").asDouble
+            return Pair(longitude, latitude)
         } catch (e: Exception) {
             logger.error("Failed to obtain latitude and longitude from ip-api.com JSON", e)
             return null

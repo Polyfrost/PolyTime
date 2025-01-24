@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "${id}",
-  "name": "${name}",
-  "version": "${version}",
+  "id": "${mod_id}",
+  "name": "${mod_name}",
+  "version": "${mod_version}",
   "description": "",
   "authors": [
     "PolyFrost",
@@ -16,12 +16,12 @@
   "entrypoints": {
     "client": [
       {
-        "value": "org.polyfrost.polytime.PolyTimeFabric"
+        "value": "org.polyfrost.polytime.PolyTimeEntrypoint"
       }
     ]
   },
   "mixins": [
-    "mixins.${id}.json"
+    "mixins.${mod_id}.json"
   ],
   "license": "GPL 3.0",
   "environment": "client"
