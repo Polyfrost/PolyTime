@@ -11,7 +11,7 @@ import org.polyfrost.polytime.PolyTimeConstants
 import org.polyfrost.polyui.input.KeybindHelper
 import org.polyfrost.universal.UKeyboard
 
-object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", PolyTimeConstants.NAME, Category.QOL) { // TODO: Fix mod
+object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/polytime_dark.svg", PolyTimeConstants.NAME, Category.QOL) { // TODO: Fix mod
 
     // TODO
     // @Info(
