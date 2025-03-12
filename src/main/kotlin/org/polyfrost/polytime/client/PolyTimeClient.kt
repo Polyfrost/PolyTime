@@ -12,7 +12,7 @@ object PolyTimeClient {
 
     fun initialize() {
         PolyTimeConfig.preload()
-        CommandManager.registerCommand(PolyTimeCommand())
+        CommandManager.register(PolyTimeCommand())
 
         RealTimeHandler.initialize()
     }
