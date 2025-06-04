@@ -25,6 +25,10 @@ object RealTimeHandler {
 
     val currentTime: Float
         get() {
+            if (currentlyUpdating) {
+                return 0f
+            }
+
             if (!::data.isInitialized) {
                 populate() // Hopefully this blocks the thread until the data is initialized
             }
