@@ -6,17 +6,22 @@ import org.spongepowered.asm.mixin.*;
 
 //#if MC <= 1.12.2
 import net.minecraft.world.WorldProvider;
+//#elseif MC >=1.21.4
+//$$ import net.minecraft.world.dimension.DimensionType;
 //#else
-//$$ import net.minecraft.world.level.dimension.DimensionType;
+//$$ import net.minecraft.client.MinecraftClient;
 //#endif
 
 //#if MC <= 1.12.2
 @Mixin(WorldProvider.class)
-//#else
+//#elseif MC >=1.21.4
 //$$ @Mixin(DimensionType.class)
+//#else
+//$$ import net.minecraft.client.MinecraftClient;
 //#endif
 public class WorldProviderMixin {
 
+    //#if MC <= 1.12.2 || MC >= 1.21.4
     /**
      * @author Deftu
      * @reason Implements lunar phases
@@ -35,4 +40,5 @@ public class WorldProviderMixin {
 
         return (int) (worldTime / 24000L % 8L + 8L) % 8;
     }
+    //#endif
 }
