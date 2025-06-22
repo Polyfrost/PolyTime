@@ -60,7 +60,7 @@ class PolyTimeEntrypoint
     fun onInitializeClient(
         //#if FORGE-LIKE
         //#if MC >= 1.16.5
-        //$$ FMLClientSetupEvent event
+        //$$ event: FMLClientSetupEvent
         //#else
         event: FMLInitializationEvent
         //#endif
