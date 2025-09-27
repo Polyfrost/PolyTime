@@ -1,6 +1,6 @@
 package org.polyfrost.polytime.client
 
-import dev.deftu.omnicore.client.OmniKeyboard
+import dev.deftu.omnicore.api.client.input.OmniKeys
 import org.polyfrost.oneconfig.api.config.v1.Config
 import org.polyfrost.oneconfig.api.config.v1.Property
 import org.polyfrost.oneconfig.api.config.v1.annotations.Checkbox
@@ -11,8 +11,7 @@ import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindManager.registerKeybind
 import org.polyfrost.polytime.PolyTimeConstants
 import org.polyfrost.polyui.input.KeybindHelper
 
-object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/polytime_dark.svg", PolyTimeConstants.NAME, Category.QOL) { // TODO: Fix mod
-
+object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime/polytime_dark.svg", PolyTimeConstants.NAME, Category.QOL) {
     // TODO
     // @Info(
     //     text = "Credits to Fyu for the original TimeChanger mod.",
@@ -24,13 +23,12 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/polytime_dark.s
 
     @Switch(
         title = "Enabled",
-    )
-    var enabled = true
+    ) @JvmStatic var isEnabled = true
 
     @Checkbox(
         title = "Use IRL time",
-    )
-    var irlTime = false
+    ) @JvmStatic
+    var isIrlTime = false
 
     @Checkbox(
         title = "Use IRL lunar phase",
@@ -63,20 +61,20 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/polytime_dark.s
         title = "Forward Key Bind",
         description = "Moves time forwards when pressed.",
     )
-    var forwardKeyBind = KeybindHelper.builder().keys(OmniKeyboard.KEY_RBRACKET).does { if (time < 24) time += 0.5f }.build()
+    var forwardKeyBind = KeybindHelper.builder().keys(OmniKeys.KEY_RIGHT_BRACKET.code).does { if (time < 24) time += 0.5f }.build()
 
     @Keybind(
         title = "Backward Key Bind",
         description = "Moves time backwards when pressed.",
     )
-    var backwardKeybind = KeybindHelper.builder().keys(OmniKeyboard.KEY_LBRACKET).does { if (time > 0) time -= 0.5f }.build()
+    var backwardKeybind = KeybindHelper.builder().keys(OmniKeys.KEY_LEFT_BRACKET.code).does { if (time > 0) time -= 0.5f }.build()
 
     init {
-        addDependency("time", "IRL Time") { if (irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
+        addDependency("time", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
 
         registerKeybind(forwardKeyBind)
-        addDependency("forwardKeyBind", "IRL Time") { if (irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
+        addDependency("forwardKeyBind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
         registerKeybind(backwardKeybind)
-        addDependency("backwardKeybind", "IRL Time") { if (irlTime) Property.Display.DISABLED else Property.Display.SHOWN }
+        addDependency("backwardKeybind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
     }
 }

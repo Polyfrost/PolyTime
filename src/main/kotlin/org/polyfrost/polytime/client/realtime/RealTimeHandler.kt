@@ -12,7 +12,6 @@ import org.shredzone.commons.suncalc.SunTimes
 import java.util.Calendar
 
 object RealTimeHandler {
-
     private val logger = LogManager.getLogger(RealTimeHandler::class.java)
 
     private var currentlyUpdating = false
@@ -63,7 +62,7 @@ object RealTimeHandler {
         }
 
     fun initialize() {
-        if (!PolyTimeConfig.irlTime) {
+        if (!PolyTimeConfig.isIrlTime) {
             return
         }
 
@@ -130,5 +129,4 @@ object RealTimeHandler {
             return null
         }
     }
-
 }

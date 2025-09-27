@@ -41,7 +41,6 @@ class PolyTimeEntrypoint
     //$$ : ClientModInitializer
     //#endif
 {
-
     //#if FORGE && MC >= 1.16.5
     //$$ init {
     //$$     setupForgeEvents(FMLJavaModLoadingContext.get().getModEventBus())
@@ -86,5 +85,4 @@ class PolyTimeEntrypoint
     //$$     modEventBus.addListener(this::onInitializeClient)
     //$$ }
     //#endif
-
 }
