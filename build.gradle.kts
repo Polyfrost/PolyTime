@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("net.fabricmc.fabric-loom-remap") version "1.14-SNAPSHOT"
     id("org.jetbrains.kotlin.jvm") version "2.3.0"
+    id("dev.deftu.gradle.bloom") version "0.2.0"
 }
 
 val modid = property("mod.id")
@@ -49,17 +50,16 @@ dependencies {
     modImplementation("org.polyfrost.oneconfig:internal:1.0.0-alpha.181")
     modImplementation("org.polyfrost.oneconfig:ui:1.0.0-alpha.181")
     modImplementation("org.polyfrost.oneconfig:utils:1.0.0-alpha.181")
+    modImplementation("org.polyfrost.oneconfig:hud:1.0.0-alpha.181")
 
     implementation("dev.deftu:commons-suncalc:0.1.0")!!
-
-    implementation("dev.deftu:Bloom:0.1.2")
 }
 
-//bloom {
-//    replacement("@MOD_ID@", modid)
-//    replacement("@MOD_NAME@", modname)
-//    replacement("@MOD_VERSION@", modversion)
-//}
+bloom {
+    replacement("@MOD_ID@", modid!!)
+    replacement("@MOD_NAME@", modname!!)
+    replacement("@MOD_VERSION@", modversion!!)
+}
 
 tasks.processResources {
     val props = mapOf(
