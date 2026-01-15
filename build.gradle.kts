@@ -34,9 +34,12 @@ loom {
 
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
+    @Suppress("UnstableApiUsage")
     mappings(loom.layered {
         officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${property("minecraft_version")}:${property("parchment_version")}@zip")
+        optionalProp("${property("parchment_version")}") {
+            parchment("org.parchmentmc.data:parchment-${property("minecraft_version")}:$it@zip")
+        }
         optionalProp("${property("yalmm_version")}") {
             mappings("dev.lambdaurora:yalmm-mojbackward:${property("minecraft_version")}+build.$it")
         }
