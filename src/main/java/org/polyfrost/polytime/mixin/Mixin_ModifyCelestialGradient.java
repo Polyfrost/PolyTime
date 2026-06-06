@@ -21,6 +21,7 @@ public abstract class Mixin_ModifyCelestialGradient extends Level {
         super(levelData, dimension, registryAccess, dimensionTypeRegistration, /*? if 1.21.1 {*/ /*profiler, *//*?}*/ isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
     }
 
+    /*? if <26.1 {*/
     @Override
     public float getTimeOfDay(float tickDelta) {
         if (PolyTimeConfig.isEnabled()) {
@@ -37,4 +38,5 @@ public abstract class Mixin_ModifyCelestialGradient extends Level {
         if (f > 1f) f -= 1f;
         return 1f - (float) ((Math.cos(f * Math.PI) + 1.0) / 2.0);
     }
+    /*?}*/
 }
