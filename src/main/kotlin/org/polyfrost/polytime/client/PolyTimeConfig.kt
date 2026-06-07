@@ -74,19 +74,5 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
 
         addDependency("forwardKeyBind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
         addDependency("backwardKeybind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
-
-        addCallback("forwardKeyBind") {
-            KeybindManager.unregister(forwardKeyBind)
-            forwardKeyBind = KeybindHelper.builder()
-                .key(forwardKeyBind.keyCodes!![0])
-                .action(Runnable { if (time < 24) time += 0.5f })
-                .register()
-        }
-
-        addCallback("backwardKeybind") {
-            KeybindManager.unregister(backwardKeybind)
-            backwardKeybind = KeybindHelper.builder().key(backwardKeybind.keyCodes!![0])
-                .action(Runnable { if (time > 0) time -= 0.5f }).register()
-        }
     }
 }

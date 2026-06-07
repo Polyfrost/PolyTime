@@ -66,15 +66,15 @@ dependencies {
         }
     }
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
-    modImplementation("org.polyfrost.oneconfig:${property("minecraft_version")}-fabric:1.0.0-alpha.192")
-    implementation("org.polyfrost.oneconfig:commands:1.0.0-alpha.192")
-    implementation("org.polyfrost.oneconfig:config:1.0.0-alpha.192")
-    implementation("org.polyfrost.oneconfig:config-impl:1.0.0-alpha.192")
-    implementation("org.polyfrost.oneconfig:events:1.0.0-alpha.192")
-    implementation("org.polyfrost.oneconfig:internal:1.0.0-alpha.192")
-    implementation("org.polyfrost.oneconfig:ui:1.0.0-alpha.192")
-    implementation("org.polyfrost.oneconfig:utils:1.0.0-alpha.192")
-    implementation("org.polyfrost.oneconfig:hud:1.0.0-alpha.192")
+    modImplementation("org.polyfrost.oneconfig:${property("minecraft_version")}-fabric:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:commands:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:config:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:config-impl:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:events:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:internal:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:ui:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:utils:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:hud:1.0.0-alpha.193")
 
     implementation("dev.deftu:commons-suncalc:0.1.0")!!
 }
