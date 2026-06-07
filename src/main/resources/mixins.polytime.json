@@ -6,6 +6,7 @@
     "verbose": true,
     "client": [
         "Mixin_FixMoonPhases",
-        "Mixin_ModifyCelestialGradient"
+        "Mixin_ModifyCelestialGradient",
+        "Mixin_ClientClockManager"
     ]
 }

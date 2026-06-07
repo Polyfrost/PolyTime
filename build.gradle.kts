@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("net.fabricmc.fabric-loom-remap") version "1.14-SNAPSHOT"
+    id("dev.kikugie.loom-back-compat")
     id("org.jetbrains.kotlin.jvm") version "2.3.0"
     id("dev.deftu.gradle.bloom") version "0.2.0"
 }
@@ -21,6 +21,19 @@ repositories {
     maven("https://repo.polyfrost.org/releases")
     maven("https://repo.polyfrost.org/snapshots")
     maven("https://maven.gegy.dev/releases")
+    maven("https://maven.logix.dev/snapshots")
+    maven("https://nexus.prsm.wtf/repository/maven-public/maven-repo/releases/")
+    maven("https://repo.hypixel.net/repository/Hypixel/")
+    maven("https://maven.deftu.dev/releases")
+    maven("https://maven.fabricmc.net/releases")
+    maven("https://jitpack.io") { content { includeGroupAndSubgroups("com.github") } }
+    maven("https://maven.bawnorton.com/releases") { content { includeGroup("com.github.bawnorton.mixinsquared") } }
+    maven("https://maven.azureaaron.net/releases") { content { includeGroup("net.azureaaron") } }
+    maven("https://redirector.kotlinlang.org/maven/compose-dev")
+    mavenCentral()
+    google()
+    gradlePluginPortal()
+
 }
 
 loom {
@@ -34,26 +47,34 @@ loom {
 
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
-    @Suppress("UnstableApiUsage")
-    mappings(loom.layered {
-        officialMojangMappings()
-        optionalProp("${property("parchment_version")}") {
-            parchment("org.parchmentmc.data:parchment-${property("minecraft_version")}:$it@zip")
+
+    val hasOfficialMappings = findProperty("has_official_mappings")?.toString()?.toBoolean() ?: true
+    if (hasOfficialMappings) {
+        @Suppress("UnstableApiUsage")
+        mappings(loom.layered {
+            officialMojangMappings()
+            optionalProp("${property("parchment_version")}") {
+                parchment("org.parchmentmc.data:parchment-${property("minecraft_version")}:$it@zip")
+            }
+            optionalProp("${property("yalmm_version")}") {
+                mappings("dev.lambdaurora:yalmm-mojbackward:${property("minecraft_version")}+build.$it")
+            }
+        })
+    } else {
+        findProperty("mappings_version")?.toString()?.takeUnless { it.isBlank() }?.let {
+            mappings(it)
         }
-        optionalProp("${property("yalmm_version")}") {
-            mappings("dev.lambdaurora:yalmm-mojbackward:${property("minecraft_version")}+build.$it")
-        }
-    })
+    }
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
-    modImplementation("org.polyfrost.oneconfig:${property("minecraft_version")}-fabric:1.0.0-alpha.181")
-    modImplementation("org.polyfrost.oneconfig:commands:1.0.0-alpha.181")
-    modImplementation("org.polyfrost.oneconfig:config:1.0.0-alpha.181")
-    modImplementation("org.polyfrost.oneconfig:config-impl:1.0.0-alpha.181")
-    modImplementation("org.polyfrost.oneconfig:events:1.0.0-alpha.181")
-    modImplementation("org.polyfrost.oneconfig:internal:1.0.0-alpha.181")
-    modImplementation("org.polyfrost.oneconfig:ui:1.0.0-alpha.181")
-    modImplementation("org.polyfrost.oneconfig:utils:1.0.0-alpha.181")
-    modImplementation("org.polyfrost.oneconfig:hud:1.0.0-alpha.181")
+    modImplementation("org.polyfrost.oneconfig:${property("minecraft_version")}-fabric:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:commands:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:config:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:config-impl:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:events:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:internal:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:ui:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:utils:1.0.0-alpha.193")
+    implementation("org.polyfrost.oneconfig:hud:1.0.0-alpha.193")
 
     implementation("dev.deftu:commons-suncalc:0.1.0")!!
 }
@@ -80,18 +101,25 @@ tasks.processResources {
     }
 }
 
+val javaVersion = findProperty("java_version")?.toString()?.toIntOrNull() ?: 21
+val javaVersionEnum = JavaVersion.toVersion(javaVersion)
+val jvmTarget = JvmTarget.fromTarget(javaVersion.toString())
+
 tasks.withType<JavaCompile>().configureEach {
-    options.release.set(21)
+    options.release.set(javaVersion)
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
+    compilerOptions.jvmTarget.set(jvmTarget)
 }
 
 java {
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
+    sourceCompatibility = javaVersionEnum
+    targetCompatibility = javaVersionEnum
 }
 
 tasks.jar {
