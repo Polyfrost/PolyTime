@@ -1,6 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val bundleOnly by configurations.creating
+configurations.implementation.get().extendsFrom(bundleOnly)
+
+
 plugins {
     id("dev.kikugie.loom-back-compat")
     id("org.jetbrains.kotlin.jvm") version "2.3.0"
@@ -76,7 +80,7 @@ dependencies {
     implementation("org.polyfrost.oneconfig:utils:1.0.0-alpha.193")
     implementation("org.polyfrost.oneconfig:hud:1.0.0-alpha.193")
 
-    implementation("dev.deftu:commons-suncalc:0.1.0")!!
+    bundleOnly("dev.deftu:commons-suncalc:0.1.0")!!
 }
 
 bloom {
@@ -124,6 +128,12 @@ java {
 
 tasks.jar {
     inputs.property("archivesName", base.archivesName)
+
+    from({
+        bundleOnly.map { file ->
+            if (file.isDirectory) file else zipTree(file)
+        }
+    })
 
     from("LICENSE") {
         rename { "${it}_${inputs.properties["archivesName"]}" }
