@@ -5,8 +5,9 @@
     "refmap": "mixins.polytime.refmap.json",
     "verbose": true,
     "client": [
+        "Mixin_ClientClockManager",
+        "Mixin_ClientLevelData",
         "Mixin_FixMoonPhases",
-        "Mixin_ModifyCelestialGradient",
-        "Mixin_ClientClockManager"
+        "Mixin_ModifyCelestialGradient"
     ]
 }
