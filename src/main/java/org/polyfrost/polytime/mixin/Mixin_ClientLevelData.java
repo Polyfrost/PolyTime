@@ -18,4 +18,5 @@ public class Mixin_ClientLevelData {
         }
     }
 }
-*///?}
+*///?} else
+public class Mixin_ClientLevelData {}

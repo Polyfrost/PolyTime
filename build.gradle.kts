@@ -18,6 +18,7 @@ val modversion = property("mod.version") as String
 val mcversion = property("minecraft_version") as String
 val versionrange = property("minecraft_version_range")
 val loaderversion = property("loader_version")
+val oneconfigVersion = "1.0.0-beta.5"
 
 base {
     archivesName.set("$modid-$modversion+$mcversion")
@@ -27,14 +28,15 @@ repositories {
     maven("https://maven.parchmentmc.org")
     maven("https://repo.polyfrost.org/releases")
     maven("https://repo.polyfrost.org/snapshots")
+    maven("https://central.sonatype.com/repository/maven-snapshots")
     maven("https://maven.gegy.dev/releases")
-    maven("https://maven.logix.dev/snapshots")
     maven("https://nexus.prsm.wtf/repository/maven-public/maven-repo/releases/")
     maven("https://repo.hypixel.net/repository/Hypixel/")
     maven("https://maven.deftu.dev/releases")
     maven("https://maven.fabricmc.net/releases")
     maven("https://jitpack.io") { content { includeGroupAndSubgroups("com.github") } }
     maven("https://maven.bawnorton.com/releases") { content { includeGroup("com.github.bawnorton.mixinsquared") } }
+    maven("https://maven.teamresourceful.com/repository/maven-public/") { content { includeGroupAndSubgroups("me.owdding"); includeGroup("com.terraformersmc") } }
     maven("https://maven.azureaaron.net/releases") { content { includeGroup("net.azureaaron") } }
     maven("https://redirector.kotlinlang.org/maven/compose-dev")
     mavenCentral()
@@ -73,15 +75,15 @@ dependencies {
         }
     }
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
-    modImplementation("org.polyfrost.oneconfig:${property("minecraft_version")}-fabric:1.0.0-alpha.193")
-    implementation("org.polyfrost.oneconfig:commands:1.0.0-alpha.193")
-    implementation("org.polyfrost.oneconfig:config:1.0.0-alpha.193")
-    implementation("org.polyfrost.oneconfig:config-impl:1.0.0-alpha.193")
-    implementation("org.polyfrost.oneconfig:events:1.0.0-alpha.193")
-    implementation("org.polyfrost.oneconfig:internal:1.0.0-alpha.193")
-    implementation("org.polyfrost.oneconfig:ui:1.0.0-alpha.193")
-    implementation("org.polyfrost.oneconfig:utils:1.0.0-alpha.193")
-    implementation("org.polyfrost.oneconfig:hud:1.0.0-alpha.193")
+    modImplementation("org.polyfrost.oneconfig:${property("minecraft_version")}-fabric:$oneconfigVersion")
+    implementation("org.polyfrost.oneconfig:commands:$oneconfigVersion")
+    implementation("org.polyfrost.oneconfig:config:$oneconfigVersion")
+    implementation("org.polyfrost.oneconfig:config-impl:$oneconfigVersion")
+    implementation("org.polyfrost.oneconfig:events:$oneconfigVersion")
+    implementation("org.polyfrost.oneconfig:internal:$oneconfigVersion")
+    implementation("org.polyfrost.oneconfig:ui:$oneconfigVersion")
+    implementation("org.polyfrost.oneconfig:utils:$oneconfigVersion")
+    implementation("org.polyfrost.oneconfig:hud:$oneconfigVersion")
 
     bundleOnly("dev.deftu:commons-suncalc:0.1.0")!!
 }

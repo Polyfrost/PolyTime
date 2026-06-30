@@ -23,4 +23,5 @@ public class Mixin_ClientClockManager {
         }
     }
 }
-*///?}
+*///?} else
+public class Mixin_ClientClockManager {}

@@ -1,10 +1,12 @@
 package org.polyfrost.polytime.mixin;
 
+//? if < 1.21.11 {
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.profiling.ProfilerFiller;
+//? if 1.21.1
+//import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.WritableLevelData;
@@ -13,7 +15,8 @@ import org.polyfrost.polytime.client.PolyTimeConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-import java.util.function.Supplier;
+//? if 1.21.1
+//import java.util.function.Supplier;
 
 @Mixin(ClientLevel.class)
 public abstract class Mixin_ModifyCelestialGradient extends Level {
@@ -21,7 +24,6 @@ public abstract class Mixin_ModifyCelestialGradient extends Level {
         super(levelData, dimension, registryAccess, dimensionTypeRegistration, /*? if 1.21.1 {*/ /*profiler, *//*?}*/ isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
     }
 
-    /*? if <1.21.11 {*/
     @Override
     public float getTimeOfDay(float tickDelta) {
         if (PolyTimeConfig.isEnabled()) {
@@ -38,5 +40,6 @@ public abstract class Mixin_ModifyCelestialGradient extends Level {
         if (f > 1f) f -= 1f;
         return 1f - (float) ((Math.cos(f * Math.PI) + 1.0) / 2.0);
     }
-    /*?}*/
 }
+//?} else
+//public class Mixin_ModifyCelestialGradient {}
