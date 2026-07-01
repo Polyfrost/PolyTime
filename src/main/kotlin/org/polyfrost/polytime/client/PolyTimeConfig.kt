@@ -8,7 +8,6 @@ import org.polyfrost.oneconfig.api.config.v1.annotations.Keybind
 import org.polyfrost.oneconfig.api.config.v1.annotations.Slider
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
 import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindHelper
-import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindManager
 import org.polyfrost.polytime.PolyTimeConstants
 
 object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime/polytime_dark.svg", PolyTimeConstants.NAME, Category.QOL) {
@@ -32,7 +31,7 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
 
     @Checkbox(
         title = "Use IRL lunar phase",
-    )
+    ) @JvmStatic
     var irlLunarPhases = false
 
     @Slider(
