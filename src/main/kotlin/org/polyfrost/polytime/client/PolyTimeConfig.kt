@@ -31,7 +31,7 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
 
     @Checkbox(
         title = "Use IRL lunar phase",
-    )
+    ) @JvmStatic
     var irlLunarPhases = false
 
     @Slider(

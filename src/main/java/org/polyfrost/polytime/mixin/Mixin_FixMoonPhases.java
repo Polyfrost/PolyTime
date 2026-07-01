@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class Mixin_FixMoonPhases {
     @WrapOperation(method = /*? if >= 1.21.10 {*/ "extractRenderState" /*?} elif >= 1.21.4 {*/ /*"method_62215" *//*?} else {*/ /*"renderSky" *//*?}*/ , at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getMoonPhase()I"))
     private int polyweather$fixMoonPhase(ClientLevel instance, Operation<Integer> original) {
-        if (PolyTimeConfig.isEnabled() && PolyTimeConfig.isIrlTime()) { // TODO: use irlLunarPhases instead?
+        if (PolyTimeConfig.isEnabled() && PolyTimeConfig.getIrlLunarPhases()) {
             return RealTimeHandler.getCurrentLunarPhase();
         }
 

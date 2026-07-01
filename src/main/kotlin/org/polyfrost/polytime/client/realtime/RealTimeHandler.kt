@@ -14,27 +14,43 @@ import java.util.Calendar
 object RealTimeHandler {
     private val logger = LogManager.getLogger(RealTimeHandler::class.java)
 
-    private var currentlyUpdating = false
+    private var currentlyUpdatingTime = false
+    private lateinit var sunData: RealTimeData
 
-    private lateinit var data: RealTimeData
+    private var cachedLunarPhase = 0
+    private var lastLunarPhaseUpdate = 0L
+    private const val LUNAR_PHASE_UPDATE_INTERVAL_MS = 60L * 60L * 1000L
 
     @JvmStatic
-    var currentLunarPhase: Int = 0
-        private set
+    val currentLunarPhase: Int
+        get() {
+            val now = System.currentTimeMillis()
+
+            if (now - lastLunarPhaseUpdate >= LUNAR_PHASE_UPDATE_INTERVAL_MS) {
+                populateCurrentLunarPhase()
+                lastLunarPhaseUpdate = now
+            }
+
+            return cachedLunarPhase
+        }
 
     val currentTime: Float
         get() {
-            if (currentlyUpdating) {
-                return 0f
+            if (currentlyUpdatingTime) {
+                return 12f
             }
 
-            if (!::data.isInitialized) {
-                populate() // Hopefully this blocks the thread until the data is initialized
+            if (!::sunData.isInitialized) {
+                populateTime() // Hopefully this blocks the thread until the data is initialized
+            }
+
+            if (!::sunData.isInitialized) {
+                return 12f
             }
 
             when {
-                data.isAlwaysUp -> return 6f
-                data.isAlwaysDown -> return 18f
+                sunData.isAlwaysUp -> return 6f
+                sunData.isAlwaysDown -> return 18f
 
                 else -> {
                     fun Float.calculateMappedTime(periodStart: Float, periodEnd: Float, gameStart: Float, gameEnd: Float): Float {
@@ -52,10 +68,10 @@ object RealTimeHandler {
 
                     val irlTime = irlTime // Caches the value
                     return when {
-                        irlTime.isWithinPeriod(data.sunrise, data.noon) -> irlTime.calculateMappedTime(data.sunrise, data.noon, 5f, 12f)
-                        irlTime.isWithinPeriod(data.noon, data.sunset) -> irlTime.calculateMappedTime(data.noon, data.sunset, 12f, 19f)
-                        irlTime.isWithinPeriod(data.sunset, data.nadir) -> irlTime.calculateMappedTime(data.sunset, data.nadir, 19f, 0f)
-                        else -> irlTime.calculateMappedTime(data.nadir, data.sunrise, 0f, 5f)
+                        irlTime.isWithinPeriod(sunData.sunrise, sunData.noon) -> irlTime.calculateMappedTime(sunData.sunrise, sunData.noon, 5f, 12f)
+                        irlTime.isWithinPeriod(sunData.noon, sunData.sunset) -> irlTime.calculateMappedTime(sunData.noon, sunData.sunset, 12f, 19f)
+                        irlTime.isWithinPeriod(sunData.sunset, sunData.nadir) -> irlTime.calculateMappedTime(sunData.sunset, sunData.nadir, 19f, 0f)
+                        else -> irlTime.calculateMappedTime(sunData.nadir, sunData.sunrise, 0f, 5f)
                     }
                 }
             }
@@ -66,32 +82,37 @@ object RealTimeHandler {
             return
         }
 
-        populate()
+        populateTime()
     }
 
-    private fun populate() {
-        if (currentlyUpdating) {
+    private fun populateTime() {
+        if (currentlyUpdatingTime) {
             return
         }
 
-        currentlyUpdating = true
+        currentlyUpdatingTime = true
 
-        val (longitude, latitude) = obtainLongitudeLatitude() ?: return
-        val times = SunTimes.compute()
-            .at(latitude, longitude)
-            .today()
-            .oneDay()
-            .timezone(Calendar.getInstance().timeZone)
-            .execute()
-        data = RealTimeData.from(times) ?: return logger.error("Failed to obtain real-time data")
-        logger.info("Obtained real-time data: $data")
+        try {
+            val (longitude, latitude) = obtainLongitudeLatitude() ?: return
+            val times = SunTimes.compute()
+                .at(latitude, longitude)
+                .today()
+                .oneDay()
+                .timezone(Calendar.getInstance().timeZone)
+                .execute()
+            sunData = RealTimeData.from(times) ?: return logger.error("Failed to obtain real-time data")
+            logger.info("Obtained real-time data: $sunData")
+        } finally {
+            currentlyUpdatingTime = false
+        }
+    }
 
+    private fun populateCurrentLunarPhase() {
         val illumination = MoonIllumination.compute()
-            .at(latitude, longitude)
             .today()
             .timezone(Calendar.getInstance().timeZone)
             .execute()
-        currentLunarPhase = when (illumination.closestPhase) {
+        cachedLunarPhase = when (illumination.closestPhase) {
             MoonPhase.Phase.FULL_MOON -> 0
             MoonPhase.Phase.WANING_GIBBOUS -> 1
             MoonPhase.Phase.LAST_QUARTER -> 2
@@ -103,9 +124,7 @@ object RealTimeHandler {
             else -> 0
         }
 
-        logger.info("Obtained lunar phase: $currentLunarPhase")
-
-        currentlyUpdating = false
+        logger.info("Obtained lunar phase: $cachedLunarPhase")
     }
 
     private fun obtainLongitudeLatitude(): Pair<Double, Double>? {
