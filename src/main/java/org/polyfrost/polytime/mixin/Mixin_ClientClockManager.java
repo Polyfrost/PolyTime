@@ -16,10 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientClockManager.class)
 
 public class Mixin_ClientClockManager {
-    @Inject(method = "getTotalTicks", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getTotalTicks", at = @At("RETURN"), cancellable = true)
     private void polytime$overrideTicks(Holder<WorldClock> definition, CallbackInfoReturnable<Long> cir) {
         if (PolyTimeConfig.isEnabled()) {
-            cir.setReturnValue(PolyTimeClient.getCurrentTime());
+            long originalTicks = cir.getReturnValue();
+            cir.setReturnValue(originalTicks - Math.floorMod(originalTicks, 24000L) + PolyTimeClient.getCurrentTime());
         }
     }
 }
