@@ -25,7 +25,7 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/polytime_dark.s
     @Switch(
         title = "Enabled",
     )
-    var enabled = true
+    var enabled = false
 
     @Checkbox(
         title = "Use IRL time",
