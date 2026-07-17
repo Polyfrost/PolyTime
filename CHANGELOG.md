@@ -1,3 +1,6 @@
+## 1.2.0
+- Initial stable release for 1.21.1–26.2
+
 ## 1.1.1-beta.2
 - Added support for 26.2
 - Fixed IRL lunar phases not working

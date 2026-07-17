@@ -25,24 +25,33 @@ base {
 }
 
 repositories {
-    maven("https://maven.parchmentmc.org")
-    maven("https://repo.polyfrost.org/releases")
-    maven("https://repo.polyfrost.org/snapshots")
-    maven("https://central.sonatype.com/repository/maven-snapshots")
-    maven("https://maven.gegy.dev/releases")
-    maven("https://nexus.prsm.wtf/repository/maven-public/maven-repo/releases/")
-    maven("https://repo.hypixel.net/repository/Hypixel/")
-    maven("https://maven.deftu.dev/releases")
-    maven("https://maven.fabricmc.net/releases")
-    maven("https://jitpack.io") { content { includeGroupAndSubgroups("com.github") } }
-    maven("https://maven.bawnorton.com/releases") { content { includeGroup("com.github.bawnorton.mixinsquared") } }
-    maven("https://maven.teamresourceful.com/repository/maven-public/") { content { includeGroupAndSubgroups("me.owdding"); includeGroup("com.terraformersmc") } }
-    maven("https://maven.azureaaron.net/releases") { content { includeGroup("net.azureaaron") } }
-    maven("https://redirector.kotlinlang.org/maven/compose-dev")
     mavenCentral()
     google()
     gradlePluginPortal()
-
+    maven("https://repo.polyfrost.org/releases")
+    maven("https://repo.polyfrost.org/snapshots")
+    maven("https://maven.parchmentmc.org") {
+        content { includeGroup("org.parchmentmc") }
+    }
+    maven("https://central.sonatype.com/repository/maven-snapshots") {
+        content { includeGroup("net.kyori") }
+    }
+    maven("https://maven.gegy.dev/releases") {
+        content { includeGroup("dev.lambdaurora") }
+    }
+    maven("https://maven.deftu.dev/releases") {
+        content { includeGroup("dev.deftu") }
+    }
+    maven("https://maven.fabricmc.net/releases") {
+        content { includeGroup("net.fabricmc") }
+    }
+    maven("https://maven.teamresourceful.com/repository/maven-public/") {
+        content { includeGroupAndSubgroups("me.owdding") }
+    }
+    //maven("https://maven.terraformersmc.com/releases") {
+    maven("https://maven.gnomecraft.net/releases/") {
+        content { includeGroup("com.terraformersmc") }
+    }
 }
 
 loom {
@@ -180,7 +189,7 @@ publishMods {
     displayName = modversion
     version = "v$modversion"
     changelog = changelogs
-    type = BETA
+    type = STABLE
 
     modLoaders.add("fabric")
 
