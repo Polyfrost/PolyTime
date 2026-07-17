@@ -12,9 +12,7 @@ data class RealTimeData(
     val noon: Float,
     val nadir: Float
 ) {
-
     companion object {
-
         private val logger = LogManager.getLogger(RealTimeData::class.java)
 
         @JvmStatic
@@ -37,7 +35,6 @@ data class RealTimeData(
         private fun ZonedDateTime.parse(): Float {
             return hour + minute / 60f + second / 3600f
         }
-
     }
 
     constructor(
@@ -55,5 +52,4 @@ data class RealTimeData(
         noon.parse(),
         nadir.parse()
     )
-
 }

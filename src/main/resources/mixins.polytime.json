@@ -1,11 +1,13 @@
 {
-  "compatibilityLevel": "JAVA_8",
-  "minVersion": "0.7",
-  "package": "org.polyfrost.polytime.mixin",
-  "refmap": "mixins.polytime.refmap.json",
-  "verbose": true,
-  "client": [
-    "WorldInfoMixin",
-    "WorldProviderMixin"
-  ]
+    "compatibilityLevel": "JAVA_8",
+    "minVersion": "0.7",
+    "package": "org.polyfrost.polytime.mixin",
+    "refmap": "mixins.polytime.refmap.json",
+    "verbose": true,
+    "client": [
+        "Mixin_ClientClockManager",
+        "Mixin_ClientLevelData",
+        "Mixin_FixMoonPhases",
+        "Mixin_ModifyCelestialGradient"
+    ]
 }
