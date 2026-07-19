@@ -22,7 +22,7 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
 
     @Switch(
         title = "Enabled",
-    ) @JvmStatic var isEnabled = true
+    ) @JvmStatic var isEnabled = false
 
     @Checkbox(
         title = "Use IRL time",
