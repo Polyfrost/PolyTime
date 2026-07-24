@@ -95,6 +95,13 @@ dependencies {
     implementation("org.polyfrost.oneconfig:hud:$oneconfigVersion")
 
     bundleOnly("dev.deftu:commons-suncalc:0.1.0")!!
+
+    testImplementation("org.junit.jupiter:junit-jupiter:6.1.2")
+    testImplementation("net.fabricmc:fabric-loader-junit:${property("loader_version")}")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 bloom {

@@ -1,4 +1,5 @@
 {
+    "required": true,
     "compatibilityLevel": "JAVA_8",
     "minVersion": "0.7",
     "package": "org.polyfrost.polytime.mixin",
@@ -9,5 +10,8 @@
         "Mixin_ClientLevelData",
         "Mixin_FixMoonPhases",
         "Mixin_ModifyCelestialGradient"
-    ]
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
 }
