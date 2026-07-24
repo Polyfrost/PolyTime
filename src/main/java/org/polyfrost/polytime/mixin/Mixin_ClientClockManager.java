@@ -24,5 +24,10 @@ public class Mixin_ClientClockManager {
         }
     }
 }
-*///?} else
+*///?} else {
+import net.minecraft.SharedConstants;
+import org.spongepowered.asm.mixin.Mixin;
+
+@Mixin(SharedConstants.class)
 public class Mixin_ClientClockManager {}
+//?}

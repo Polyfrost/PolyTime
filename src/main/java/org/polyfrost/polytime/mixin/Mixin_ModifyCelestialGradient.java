@@ -41,5 +41,10 @@ public abstract class Mixin_ModifyCelestialGradient extends Level {
         return 1f - (float) ((Math.cos(f * Math.PI) + 1.0) / 2.0);
     }
 }
-//?} else
-//public class Mixin_ModifyCelestialGradient {}
+//?} else {
+/*import net.minecraft.SharedConstants;
+import org.spongepowered.asm.mixin.Mixin;
+
+@Mixin(SharedConstants.class)
+public class Mixin_ModifyCelestialGradient {}
+*///?}
