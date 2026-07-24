@@ -1,2 +1,2 @@
-## 1.2.1
-Disabled by default.
+## 1.2.2
+- Fixed some generally harmless invalid mixins
