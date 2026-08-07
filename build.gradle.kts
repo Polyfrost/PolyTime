@@ -49,8 +49,7 @@ repositories {
     maven("https://maven.teamresourceful.com/repository/maven-public/") {
         content { includeGroupAndSubgroups("me.owdding") }
     }
-    //maven("https://maven.terraformersmc.com/releases") {
-    maven("https://maven.gnomecraft.net/releases/") {
+    maven("https://maven.terraformersmc.com/") {
         content { includeGroup("com.terraformersmc") }
     }
 }
