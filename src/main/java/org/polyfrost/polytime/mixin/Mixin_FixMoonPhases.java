@@ -1,6 +1,6 @@
 package org.polyfrost.polytime.mixin;
 
-//? if >= 1.21.11 {
+//? if >= 1.21.11 || = 1.8.9 {
 /*import org.spongepowered.asm.mixin.injection.Inject;
 *///?} else {
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -13,11 +13,16 @@ import net.minecraft.client.renderer.state.SkyRenderState;
 import net.minecraft.world.level.MoonPhase;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 *///?}
+//? if > 1.8.9
 import net.minecraft.client.multiplayer.ClientLevel;
 //? if >= 1.21.10 {
 import net.minecraft.client.renderer.SkyRenderer;
-//?} else
-//import net.minecraft.client.renderer.LevelRenderer;
+//?} elif > 1.8.9 {
+/*import net.minecraft.client.renderer.LevelRenderer;
+*///?} else {
+/*import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+*///?}
 import org.polyfrost.polytime.client.PolyTimeConfig;
 import org.polyfrost.polytime.client.realtime.RealTimeHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,9 +30,10 @@ import org.spongepowered.asm.mixin.injection.At;
 
 //? if >= 1.21.10 {
 @Mixin(SkyRenderer.class)
-//?} else {
+//?} elif > 1.8.9 {
 /*@Mixin(LevelRenderer.class)
-*///?}
+*///?} else
+//@Mixin(World.class)
 public class Mixin_FixMoonPhases {
     //? if >= 1.21.11 {
     /*@Inject(method = "extractRenderState", at = @At("TAIL"))
@@ -36,7 +42,7 @@ public class Mixin_FixMoonPhases {
             state.moonPhase = MoonPhase.values()[RealTimeHandler.getCurrentLunarPhase()];
         }
     }
-    *///?} elif >= 1.21 {
+    *///?} elif > 1.8.9 {
     @WrapOperation(method = /*? if 1.21.10 {*/ "extractRenderState" /*?} elif >= 1.21.4 {*/ /*"method_62215" *//*?} else {*/ /*"renderSky" *//*?}*/ , at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getMoonPhase()I"))
     private int polyweather$fixMoonPhase(ClientLevel instance, Operation<Integer> original) {
         if (PolyTimeConfig.isEnabled() && PolyTimeConfig.getIrlLunarPhases()) {
@@ -45,5 +51,12 @@ public class Mixin_FixMoonPhases {
 
         return original.call(instance);
     }
-    //?}
+    //?} else {
+    /*@Inject(method = "getMoonPhase", at = @At("HEAD"), cancellable = true)
+    private void polytime$fixMoonPhase(CallbackInfoReturnable<Integer> cir) {
+        if (PolyTimeConfig.isEnabled() && PolyTimeConfig.getIrlLunarPhases()) {
+            cir.setReturnValue(RealTimeHandler.getCurrentLunarPhase());
+        }
+    }
+    *///?}
 }
