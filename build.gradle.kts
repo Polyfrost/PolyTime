@@ -19,7 +19,7 @@ val modversion = property("mod.version") as String
 val mcversion = property("minecraft_version") as String
 val versionrange = property("minecraft_version_range")
 val loaderversion = property("loader_version")
-val oneconfigVersion = "1.0.0-beta.5"
+val oneconfigVersion = "1.1.6"
 
 base {
     archivesName.set("$modid-$modversion+$mcversion")
@@ -31,6 +31,9 @@ repositories {
     gradlePluginPortal()
     maven("https://repo.polyfrost.org/releases")
     maven("https://repo.polyfrost.org/snapshots")
+    maven("https://api.modrinth.com/maven") {
+        content { includeGroup("maven.modrinth") }
+    }
     maven("https://maven.parchmentmc.org") {
         content { includeGroupAndSubgroups("org.parchmentmc") }
     }
