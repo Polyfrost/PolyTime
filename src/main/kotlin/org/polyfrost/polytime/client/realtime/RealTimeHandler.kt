@@ -41,7 +41,7 @@ object RealTimeHandler {
             }
 
             if (!::sunData.isInitialized) {
-                populateTime() // Hopefully this blocks the thread until the data is initialized
+                populateTime() // blocks until sunData is set
             }
 
             if (!::sunData.isInitialized) {
@@ -66,7 +66,7 @@ object RealTimeHandler {
                         return map(current, periodStart, periodEnd, gameStart, gameEnd)
                     }
 
-                    val irlTime = irlTime // Caches the value
+                    val irlTime = irlTime
                     return when {
                         irlTime.isWithinPeriod(sunData.sunrise, sunData.noon) -> irlTime.calculateMappedTime(sunData.sunrise, sunData.noon, 5f, 12f)
                         irlTime.isWithinPeriod(sunData.noon, sunData.sunset) -> irlTime.calculateMappedTime(sunData.noon, sunData.sunset, 12f, 19f)
