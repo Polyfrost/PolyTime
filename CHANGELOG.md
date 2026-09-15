@@ -1,2 +1,2 @@
-## 1.2.2
-- Fixed some generally harmless invalid mixins
+## 1.3.0
+- Added support for Minecraft 26.3
