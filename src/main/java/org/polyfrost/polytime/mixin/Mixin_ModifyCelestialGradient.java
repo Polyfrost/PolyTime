@@ -1,7 +1,7 @@
 package org.polyfrost.polytime.mixin;
 
 //? if < 1.21.11 {
-import net.minecraft.client.multiplayer.ClientLevel;
+/*import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(ClientLevel.class)
 public abstract class Mixin_ModifyCelestialGradient extends Level {
-    protected Mixin_ModifyCelestialGradient(WritableLevelData levelData, ResourceKey<Level> dimension, RegistryAccess registryAccess, Holder<DimensionType> dimensionTypeRegistration, /*? if 1.21.1 {*/ /*Supplier<ProfilerFiller> profiler, *//*?}*/ boolean isClientSide, boolean isDebug, long biomeZoomSeed, int maxChainedNeighborUpdates) {
-        super(levelData, dimension, registryAccess, dimensionTypeRegistration, /*? if 1.21.1 {*/ /*profiler, *//*?}*/ isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
+    protected Mixin_ModifyCelestialGradient(WritableLevelData levelData, ResourceKey<Level> dimension, RegistryAccess registryAccess, Holder<DimensionType> dimensionTypeRegistration, /^? if 1.21.1 {^/ /^Supplier<ProfilerFiller> profiler, ^//^?}^/ boolean isClientSide, boolean isDebug, long biomeZoomSeed, int maxChainedNeighborUpdates) {
+        super(levelData, dimension, registryAccess, dimensionTypeRegistration, /^? if 1.21.1 {^/ /^profiler, ^//^?}^/ isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
     }
 
     @Override
@@ -41,10 +41,10 @@ public abstract class Mixin_ModifyCelestialGradient extends Level {
         return 1f - (float) ((Math.cos(f * Math.PI) + 1.0) / 2.0);
     }
 }
-//?} else {
-/*import net.minecraft.SharedConstants;
+*///?} else {
+import net.minecraft.SharedConstants;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(SharedConstants.class)
 public class Mixin_ModifyCelestialGradient {}
-*///?}
+//?}
