@@ -5,8 +5,12 @@ import org.polyfrost.polytime.realTimeToGameTime
 
 object PolyTimeClient {
     @JvmStatic
-    val currentTime: Long
-        get() = (if (PolyTimeConfig.isIrlTime) RealTimeHandler.currentTime else PolyTimeConfig.time).realTimeToGameTime()
+    val currentTime: Long?
+        get() = if (PolyTimeConfig.isIrlTime) {
+            RealTimeHandler.currentTime?.realTimeToGameTime()
+        } else {
+            PolyTimeConfig.time.realTimeToGameTime()
+        }
 
     fun initialize() {
         PolyTimeConfig.preload()

@@ -2,6 +2,7 @@ package org.polyfrost.polytime.client.realtime
 
 import org.apache.logging.log4j.LogManager
 import org.polyfrost.oneconfig.utils.v1.JsonUtils
+import org.polyfrost.oneconfig.utils.v1.Multithreading
 import org.polyfrost.polytime.client.PolyTimeConfig
 import org.polyfrost.polytime.irlTime
 import org.polyfrost.polytime.isWithinPeriod
@@ -10,12 +11,20 @@ import org.shredzone.commons.suncalc.MoonIllumination
 import org.shredzone.commons.suncalc.MoonPhase
 import org.shredzone.commons.suncalc.SunTimes
 import java.util.Calendar
+import java.util.concurrent.atomic.AtomicBoolean
 
 object RealTimeHandler {
     private val logger = LogManager.getLogger(RealTimeHandler::class.java)
 
-    private var currentlyUpdatingTime = false
-    private lateinit var sunData: RealTimeData
+    private val currentlyUpdatingTime = AtomicBoolean(false)
+
+    @Volatile
+    private var sunData: RealTimeData? = null
+
+    @Volatile
+    private var nextTimeUpdateAttempt = 0L
+
+    private const val TIME_UPDATE_RETRY_INTERVAL_MS = 30L * 1000L
 
     private var cachedLunarPhase = 0
     private var lastLunarPhaseUpdate = 0L
@@ -34,18 +43,12 @@ object RealTimeHandler {
             return cachedLunarPhase
         }
 
-    val currentTime: Float
+    val currentTime: Float?
         get() {
-            if (currentlyUpdatingTime) {
-                return 12f
-            }
-
-            if (!::sunData.isInitialized) {
-                populateTime() // blocks until sunData is set
-            }
-
-            if (!::sunData.isInitialized) {
-                return 12f
+            val sunData = sunData
+            if (sunData == null) {
+                populateTime()
+                return null
             }
 
             when {
@@ -86,24 +89,37 @@ object RealTimeHandler {
     }
 
     private fun populateTime() {
-        if (currentlyUpdatingTime) {
+        if (System.currentTimeMillis() < nextTimeUpdateAttempt) {
             return
         }
 
-        currentlyUpdatingTime = true
+        if (!currentlyUpdatingTime.compareAndSet(false, true)) {
+            return
+        }
 
-        try {
-            val (longitude, latitude) = obtainLongitudeLatitude() ?: return
-            val times = SunTimes.compute()
-                .at(latitude, longitude)
-                .today()
-                .oneDay()
-                .timezone(Calendar.getInstance().timeZone)
-                .execute()
-            sunData = RealTimeData.from(times) ?: return logger.error("Failed to obtain real-time data")
-            logger.info("Obtained real-time data: $sunData")
-        } finally {
-            currentlyUpdatingTime = false
+        Multithreading.submit {
+            var updateSucceeded = false
+
+            try {
+                val (longitude, latitude) = obtainLongitudeLatitude() ?: return@submit
+                val times = SunTimes.compute()
+                    .at(latitude, longitude)
+                    .today()
+                    .oneDay()
+                    .timezone(Calendar.getInstance().timeZone)
+                    .execute()
+                sunData = RealTimeData.from(times) ?: return@submit logger.error("Failed to obtain real-time data")
+                nextTimeUpdateAttempt = 0L
+                updateSucceeded = true
+                logger.info("Obtained real-time data: $sunData")
+            } catch (e: Exception) {
+                logger.error("Failed to obtain real-time data", e)
+            } finally {
+                if (!updateSucceeded) {
+                    nextTimeUpdateAttempt = System.currentTimeMillis() + TIME_UPDATE_RETRY_INTERVAL_MS
+                }
+                currentlyUpdatingTime.set(false)
+            }
         }
     }
 

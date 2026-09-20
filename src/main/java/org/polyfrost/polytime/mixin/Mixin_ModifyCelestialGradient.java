@@ -27,7 +27,10 @@ public abstract class Mixin_ModifyCelestialGradient extends Level {
     @Override
     public float getTimeOfDay(float tickDelta) {
         if (PolyTimeConfig.isEnabled()) {
-            return polyweather$angleFromTime(PolyTimeClient.getCurrentTime(), tickDelta);
+            Long currentTime = PolyTimeClient.getCurrentTime();
+            if (currentTime != null) {
+                return polyweather$angleFromTime(currentTime, tickDelta);
+            }
         }
 
         return super.getTimeOfDay(tickDelta);
