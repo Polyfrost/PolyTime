@@ -23,8 +23,7 @@ public class Mixin_ClientClockManager {
     @Inject(method = /*? if >=26.3 {*/ "totalTicks" /*?} else {*/ /*"getTotalTicks" *//*?}*/, at = @At("RETURN"), cancellable = true)
     private void polytime$overrideTicks(/*? if <26.3 {*/ /*Holder<WorldClock> definition, *//*?}*/ CallbackInfoReturnable<Long> cir) {
         if (PolyTimeConfig.isEnabled()) {
-            long originalTicks = cir.getReturnValue();
-            cir.setReturnValue(originalTicks - Math.floorMod(originalTicks, 24000L) + PolyTimeClient.getCurrentTime());
+            cir.setReturnValue(PolyTimeClient.adjustTicks(cir.getReturnValue()));
         }
     }
 }

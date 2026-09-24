@@ -14,8 +14,7 @@ public class Mixin_ClientLevelData {
     @Inject(method = "getDayTime", at = @At("RETURN"), cancellable = true)
     private void polytime$overrideDayTime(CallbackInfoReturnable<Long> cir) {
         if (PolyTimeConfig.isEnabled()) {
-            long originalDayTime = cir.getReturnValue();
-            cir.setReturnValue(originalDayTime - Math.floorMod(originalDayTime, 24000L) + PolyTimeClient.getCurrentTime());
+            cir.setReturnValue(PolyTimeClient.adjustTicks(cir.getReturnValue()));
         }
     }
 }

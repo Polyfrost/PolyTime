@@ -9,6 +9,7 @@ import org.polyfrost.oneconfig.api.config.v1.annotations.Slider
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
 import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindHelper
 import org.polyfrost.polytime.PolyTimeConstants
+import org.polyfrost.polytime.client.realtime.RealTimeHandler
 
 object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime/polytime_dark.svg", PolyTimeConstants.NAME, Category.QOL) {
     // TODO
@@ -73,5 +74,10 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
 
         addDependency("forwardKeyBind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
         addDependency("backwardKeybind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
+
+        addCallback<Boolean>("isIrlTime") { enabled ->
+            if (enabled) RealTimeHandler.populateTime()
+            false
+        }
     }
 }
