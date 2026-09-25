@@ -1,0 +1,6 @@
+tiny	2	0	intermediary	named
+c	net/minecraft/unmapped/C_24384787	net/minecraft/client/renderer/LevelRenderer
+c	net/minecraft/unmapped/C_32220415	net/minecraft/server/Bootstrap
+	m	()V	m_84022598	bootStrap
+c	net/minecraft/unmapped/C_34399650	net/minecraft/client/multiplayer/ClientLevel
+c	net/minecraft/unmapped/C_64041439	net/minecraft/world/level/Level
