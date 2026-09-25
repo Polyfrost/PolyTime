@@ -1,7 +1,10 @@
 package org.polyfrost.polytime.client.realtime
 
+import net.minecraft.client.Minecraft
 import org.apache.logging.log4j.LogManager
+import org.polyfrost.oneconfig.api.notifications.v1.Notifications
 import org.polyfrost.oneconfig.utils.v1.JsonUtils
+import org.polyfrost.oneconfig.utils.v1.Multithreading
 import org.polyfrost.polytime.client.PolyTimeConfig
 import org.polyfrost.polytime.irlTime
 import org.polyfrost.polytime.isWithinPeriod
@@ -9,13 +12,29 @@ import org.polyfrost.polytime.map
 import org.shredzone.commons.suncalc.MoonIllumination
 import org.shredzone.commons.suncalc.MoonPhase
 import org.shredzone.commons.suncalc.SunTimes
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Calendar
+import java.util.concurrent.atomic.AtomicBoolean
 
 object RealTimeHandler {
     private val logger = LogManager.getLogger(RealTimeHandler::class.java)
 
-    private var currentlyUpdatingTime = false
-    private lateinit var sunData: RealTimeData
+    private val currentlyUpdatingTime = AtomicBoolean(false)
+
+    @Volatile
+    private var sunData: RealTimeData? = null
+
+    @Volatile
+    private var sunDataExpiresAt = 0L
+
+    @Volatile
+    private var failureNotified = false
+
+    @Volatile
+    private var nextTimeUpdateAttempt = 0L
+
+    private const val TIME_UPDATE_RETRY_INTERVAL_MS = 30L * 1000L
 
     private var cachedLunarPhase = 0
     private var lastLunarPhaseUpdate = 0L
@@ -34,18 +53,16 @@ object RealTimeHandler {
             return cachedLunarPhase
         }
 
-    val currentTime: Float
+    val currentTime: Float?
         get() {
-            if (currentlyUpdatingTime) {
-                return 12f
+            val sunData = sunData
+            if (sunData == null) {
+                populateTime()
+                return null
             }
 
-            if (!::sunData.isInitialized) {
-                populateTime() // blocks until sunData is set
-            }
-
-            if (!::sunData.isInitialized) {
-                return 12f
+            if (System.currentTimeMillis() >= sunDataExpiresAt) {
+                populateTime() // keep using yesterday's data until the refresh lands
             }
 
             when {
@@ -85,12 +102,26 @@ object RealTimeHandler {
         populateTime()
     }
 
-    private fun populateTime() {
-        if (currentlyUpdatingTime) {
+    fun populateTime() {
+        if (System.currentTimeMillis() < nextTimeUpdateAttempt) {
             return
         }
 
-        currentlyUpdatingTime = true
+        if (!currentlyUpdatingTime.compareAndSet(false, true)) {
+            return
+        }
+
+        try {
+            Multithreading.submit(::fetchTime)
+        } catch (e: Exception) {
+            logger.error("Failed to schedule real-time data fetch", e)
+            onFetchFailed()
+            currentlyUpdatingTime.set(false)
+        }
+    }
+
+    private fun fetchTime() {
+        var updateSucceeded = false
 
         try {
             val (longitude, latitude) = obtainLongitudeLatitude() ?: return
@@ -100,10 +131,33 @@ object RealTimeHandler {
                 .oneDay()
                 .timezone(Calendar.getInstance().timeZone)
                 .execute()
-            sunData = RealTimeData.from(times) ?: return logger.error("Failed to obtain real-time data")
-            logger.info("Obtained real-time data: $sunData")
+            val data = RealTimeData.from(times) ?: return logger.error("Failed to obtain real-time data")
+            sunDataExpiresAt = LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            sunData = data
+            nextTimeUpdateAttempt = 0L
+            updateSucceeded = true
+            logger.info("Obtained real-time data: $data")
+        } catch (e: Exception) {
+            logger.error("Failed to obtain real-time data", e)
         } finally {
-            currentlyUpdatingTime = false
+            if (!updateSucceeded) {
+                onFetchFailed()
+            }
+            currentlyUpdatingTime.set(false)
+        }
+    }
+
+    private fun onFetchFailed() {
+        nextTimeUpdateAttempt = System.currentTimeMillis() + TIME_UPDATE_RETRY_INTERVAL_MS
+
+        if (sunData == null && !failureNotified) {
+            failureNotified = true
+            Minecraft.getInstance().execute {
+                Notifications.error(
+                    "PolyTime",
+                    "Couldn't get your location for IRL time. Using server time until it works, retrying every ${TIME_UPDATE_RETRY_INTERVAL_MS / 1000}s."
+                )
+            }
         }
     }
 

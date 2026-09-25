@@ -1,2 +1,2 @@
-## 1.2.2
-- Fixed some generally harmless invalid mixins
+## 1.3.1
+- Fix IRL time not being fetched async
