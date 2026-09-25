@@ -1,6 +1,6 @@
 package org.polyfrost.polytime.mixin;
 
-//? if 1.21.11 {
+//? if < 26.1 {
 /*import net.minecraft.client.multiplayer.ClientLevel;
 import org.polyfrost.polytime.client.PolyTimeClient;
 import org.polyfrost.polytime.client.PolyTimeConfig;
