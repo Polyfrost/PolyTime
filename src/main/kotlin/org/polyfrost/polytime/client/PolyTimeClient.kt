@@ -17,7 +17,7 @@ object PolyTimeClient {
     @JvmStatic
     fun adjustTicks(ticks: Long): Long {
         val time = currentTime
-        return if (time == NO_TIME) ticks else ticks - Math.floorMod(ticks, 24000L) + time
+        return if (time == NO_TIME) ticks else ticks - Math.floorMod(ticks, 24000L) + Math.floorMod(time, 24000L)
     }
 
     fun initialize() {
