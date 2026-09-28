@@ -8,8 +8,7 @@
     "client": [
         "Mixin_ClientClockManager",
         "Mixin_ClientLevelData",
-        "Mixin_FixMoonPhases",
-        "Mixin_ModifyCelestialGradient"
+        "Mixin_FixMoonPhases"
     ],
     "injectors": {
         "defaultRequire": 1
