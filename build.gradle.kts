@@ -70,6 +70,9 @@ repositories {
         name = "Sonatype Snapshots"
         content { includeGroup("net.kyori") }
     }
+    maven("https://maven.cloverclient.com/releases") {
+        content { includeGroup("pl.tomgirl") }
+    }
     // commons-suncalc is only published to Deftu's snapshot repo
     maven("https://maven.deftu.dev/releases") {
         name = "Deftu Releases"
