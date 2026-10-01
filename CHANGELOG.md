@@ -1,2 +1,2 @@
 ## 1.3.1
-- Fix IRL time not being fetched async
+- Port to 1.8.9
