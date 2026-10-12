@@ -3,14 +3,12 @@
 [![Modrinth downloads](https://img.shields.io/modrinth/dt/m3kNp1iP?style=flat&logo=modrinth&label=Modrinth&color=1bd96a)](https://modrinth.com/mod/polytime)
 [![CurseForge downloads](https://img.shields.io/curseforge/dt/1148000?style=flat&logo=curseforge&label=CurseForge&color=f16436)](https://www.curseforge.com/minecraft/mc-mods/polytime)
 
-PolyTime sets the time of day you see in your world. It only changes your own view, so the server and other players keep their own time.
+PolyTime changes the time of day you see, without touching the server's actual time.
 
-## Features
-
-- Pick a time on a 24-hour slider, in half-hour steps. 12 is noon and 0 is midnight.
-- Press `]` to move the time forward by half an hour and `[` to move it back. You can rebind both keys.
-- Follow the real time where you live. PolyTime maps your local sunrise, noon and sunset onto the Minecraft day, so the sun rises in-game when it rises outside.
-- Show the real moon phase for today's date.
+- Pick any time of day with a slider
+- Nudge the time forward and back with `]` and `[` (rebindable)
+- Use your real local time, with sunrise and sunset matched to where you live
+- Show the real moon phase too
 
 ## Supported versions
 
@@ -23,11 +21,3 @@ PolyTime needs [OneConfig](https://modrinth.com/mod/oneconfig) and Fabric Langua
 
 - Report bugs and ask questions on the [Polyfrost Discord](https://polyfrost.org/discord).
 - Check [Polyfrost Status](https://status.polyfrost.org/) if a Polyfrost service is down.
-
-## Building
-
-```sh
-./gradlew ":26.3:build"
-```
-
-Replace `26.3` with any supported Minecraft version. The build needs JDK 21 and JDK 25 installed.
