@@ -6,14 +6,14 @@
 PolyTime changes the time of day you see, without touching the server's actual time.
 
 - Pick any time of day with a slider
-- Nudge the time forward and back with `]` and `[` (rebindable)
-- Use your real local time, with sunrise and sunset matched to where you live
+- Move the time forward and back with `]` and `[` (rebindable)
+- Use your real local time (sunrise and sunset match where you live)
 - Show the real moon phase too
 
 ## Supported versions
 
 - Minecraft 1.8.9 on Ornithe.
-- Minecraft 1.21.1, 1.21.4, 1.21.5, 1.21.8, 1.21.10, 1.21.11, 26.1, 26.2 and 26.3 on Fabric.
+- Minecraft 1.21.1-26.3 on Fabric.
 
 PolyTime needs [OneConfig](https://modrinth.com/mod/oneconfig) and Fabric Language Kotlin.
 
