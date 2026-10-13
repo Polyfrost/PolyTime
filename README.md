@@ -5,10 +5,14 @@
 
 PolyTime changes the time of day you see, without touching the server's actual time.
 
+![Time slider](.github/images/slider.gif)
+
 - Pick any time of day with a slider
 - Move the time forward and back with `]` and `[` (rebindable)
 - Use your real local time (sunrise and sunset match where you live)
 - Show the real moon phase too
+
+![Time keybinds](.github/images/keys.gif)
 
 ## Supported versions
 
