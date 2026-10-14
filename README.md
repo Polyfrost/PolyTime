@@ -1,19 +1,27 @@
 # PolyTime
-![Compact Powered by OneConfig](https://polyfrost.org/img/compact_vector.svg)
-![Dev Workflow Status](https://img.shields.io/github/v/release/Polyfrost/PolyTime.svg?style=for-the-badge&color=1452cc&label=release)
 
-A simple, no-nonsense time-changer mod, which does exactly that.
+[![Modrinth downloads](https://img.shields.io/modrinth/dt/m3kNp1iP?style=flat&logo=modrinth&label=Modrinth&color=1bd96a)](https://modrinth.com/mod/polytime)
+[![CurseForge downloads](https://img.shields.io/curseforge/dt/1148000?style=flat&logo=curseforge&label=CurseForge&color=f16436)](https://www.curseforge.com/minecraft/mc-mods/polytime)
 
-**Features:**
-- Manually set time
-- Use lunar cycles
-- IRL time
-- Native OneConfig support
+PolyTime changes the time of day you see, without touching the server's actual time.
 
-## Screenshots
-![PolyTime with OneConfig](https://i.imgur.com/2CXDatS.png)
+![Time slider](.github/images/slider.gif)
 
-## Links and support
-* Did you run into a bug? [Open a bug report](https://polyfrost.org/discord)
-* Service interruptions? [Checkout Polyfrost Status](https://status.polyfrost.org/)
-* Feeling social? [Join our discord community](https://polyfrost.org/discord)
+- Pick any time of day with a slider
+- Move the time forward and back with `]` and `[` (rebindable)
+- Use your real local time (sunrise and sunset match where you live)
+- Show the real moon phase too
+
+![Time keybinds](.github/images/keys.gif)
+
+## Supported versions
+
+- Minecraft 1.8.9 on Ornithe.
+- Minecraft 1.21.1-26.3 on Fabric.
+
+PolyTime needs [OneConfig](https://modrinth.com/mod/oneconfig) and Fabric Language Kotlin.
+
+## Support
+
+- Report bugs and ask questions on the [Polyfrost Discord](https://polyfrost.org/discord).
+- Check [Polyfrost Status](https://status.polyfrost.org/) if a Polyfrost service is down.
