@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.SkyRenderer;
 //?} else
 //import net.minecraft.client.renderer.LevelRenderer;
 import org.polyfrost.polytime.client.PolyTimeConfig;
-import org.polyfrost.polytime.client.realtime.RealTimeHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -32,15 +31,15 @@ public class Mixin_FixMoonPhases {
     //? if >= 1.21.11 {
     @Inject(method = "extractRenderState", at = @At("TAIL"))
     private void polytime$fixMoonPhase(ClientLevel level, float partialTicks, Camera camera, SkyRenderState state, CallbackInfo ci) {
-        if (PolyTimeConfig.isEnabled() && PolyTimeConfig.getIrlLunarPhases()) {
-            state.moonPhase = MoonPhase.values()[RealTimeHandler.getCurrentLunarPhase()];
+        if (PolyTimeConfig.isEnabled() && PolyTimeConfig.getMoonPhaseOverride() >= 0) {
+            state.moonPhase = MoonPhase.values()[PolyTimeConfig.getMoonPhaseOverride()];
         }
     }
     //?} else {
     /*@WrapOperation(method = /^? if 1.21.10 {^/ /^"extractRenderState" ^//^?} elif >= 1.21.4 {^/ "method_62215" /^?} else {^/ /^"renderSky" ^//^?}^/ , at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getMoonPhase()I"))
     private int polyweather$fixMoonPhase(ClientLevel instance, Operation<Integer> original) {
-        if (PolyTimeConfig.isEnabled() && PolyTimeConfig.getIrlLunarPhases()) {
-            return RealTimeHandler.getCurrentLunarPhase();
+        if (PolyTimeConfig.isEnabled() && PolyTimeConfig.getMoonPhaseOverride() >= 0) {
+            return PolyTimeConfig.getMoonPhaseOverride();
         }
 
         return original.call(instance);

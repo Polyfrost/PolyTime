@@ -35,6 +35,16 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
     ) @JvmStatic
     var irlLunarPhases = false
 
+    @Dropdown(
+        title = "Moon phase",
+        options = ["Default", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent", "New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous"],
+    )
+    var moonPhase = 0
+
+    @JvmStatic
+    val moonPhaseOverride: Int
+        get() = if (irlLunarPhases) RealTimeHandler.currentLunarPhase else moonPhase - 1
+
     @Slider(
         title = "Time",
         min = 0f, max = 24f, step = 0.5f
@@ -70,6 +80,7 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
     var backwardKeybind = KeybindHelper.builder().key(InputConstants.KEY_LBRACKET).action(Runnable { if (time > 0) time -= 0.5f }).register()
 
     init {
+        addDependency("moonPhase", "IRL Lunar Phase") { if (irlLunarPhases) Property.Display.DISABLED else Property.Display.SHOWN }
         addDependency("time", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
 
         addDependency("forwardKeyBind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
