@@ -51,21 +51,16 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
     )
     var time = 12f
 
-    // @Switch(
-    //     name = "Fast Time",
-    //     category = "Time"
-    // )
-    // var fastTime = false
-    //     get() = false
+    @Checkbox(
+        title = "Fast Time",
+    )
+    var fastTime = false
 
-    // @Slider(
-    //     name = "Speed",
-    //     min = 0.1f, max = 10f,
-    //     instant = true,
-    //     category = "Time"
-    // )
-    // var fastSpeed = 1f
-    //     get() = field.coerceIn(0.1f..10f)
+    @Slider(
+        title = "Speed",
+        min = 0.1f, max = 100f, step = 0.1f
+    )
+    var fastSpeed = 10f
 
     @Keybind(
         title = "Forward Key Bind",
@@ -80,8 +75,16 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
     var backwardKeybind = KeybindHelper.builder().key(InputConstants.KEY_LBRACKET).action(Runnable { if (time > 0) time -= 0.5f }).register()
 
     init {
+        eventHandler { _: TickEvent.End ->
+            if (timeDirection != 0) time = (time + timeDirection * keybindSpeed / 20f).coerceIn(0f, 24f)
+        }
+
         addDependency("moonPhase", "IRL Lunar Phase") { if (irlLunarPhases) Property.Display.DISABLED else Property.Display.SHOWN }
+
         addDependency("time", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
+        addDependency("time", "Fast Time") { if (fastTime) Property.Display.DISABLED else Property.Display.SHOWN }
+        addDependency("fastTime", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
+        addDependency("fastSpeed", "fastTime")
 
         addDependency("forwardKeyBind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
         addDependency("backwardKeybind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }

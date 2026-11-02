@@ -8,6 +8,8 @@ object PolyTimeClient {
     val currentTime: Long
         get() = if (PolyTimeConfig.isIrlTime) {
             RealTimeHandler.currentTime?.realTimeToGameTime() ?: NO_TIME
+        } else if (PolyTimeConfig.fastTime) {
+            (System.currentTimeMillis() * 0.02 * PolyTimeConfig.fastSpeed % 24000).toLong()
         } else {
             PolyTimeConfig.time.realTimeToGameTime()
         }
