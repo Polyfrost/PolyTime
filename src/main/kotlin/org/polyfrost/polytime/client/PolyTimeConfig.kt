@@ -4,12 +4,16 @@ import com.mojang.blaze3d.platform.InputConstants
 import org.polyfrost.oneconfig.api.config.v1.Config
 import org.polyfrost.oneconfig.api.config.v1.Property
 import org.polyfrost.oneconfig.api.config.v1.annotations.Checkbox
+import org.polyfrost.oneconfig.api.config.v1.annotations.Dropdown
 import org.polyfrost.oneconfig.api.config.v1.annotations.Keybind
 import org.polyfrost.oneconfig.api.config.v1.annotations.Slider
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
+import org.polyfrost.oneconfig.api.event.v1.eventHandler
+import org.polyfrost.oneconfig.api.event.v1.events.TickEvent
 import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindHelper
 import org.polyfrost.polytime.PolyTimeConstants
 import org.polyfrost.polytime.client.realtime.RealTimeHandler
+import java.util.function.Consumer
 
 object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime/polytime_dark.svg", PolyTimeConstants.NAME, Category.QOL) {
     // TODO
@@ -64,15 +68,24 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
 
     @Keybind(
         title = "Forward Key Bind",
-        description = "Moves time forwards when pressed.",
+        description = "Moves time forwards while held.",
     )
-    var forwardKeyBind = KeybindHelper.builder().key(InputConstants.KEY_RBRACKET).action(Runnable { if (time < 24) time += 0.5f }).register()
+    var forwardKeyBind = KeybindHelper.builder().key(InputConstants.KEY_RBRACKET).action(Consumer<Boolean> { timeDirection += if (it) 1 else -1 }).register()
 
     @Keybind(
         title = "Backward Key Bind",
-        description = "Moves time backwards when pressed.",
+        description = "Moves time backwards while held.",
     )
-    var backwardKeybind = KeybindHelper.builder().key(InputConstants.KEY_LBRACKET).action(Runnable { if (time > 0) time -= 0.5f }).register()
+    var backwardKeybind = KeybindHelper.builder().key(InputConstants.KEY_LBRACKET).action(Consumer<Boolean> { timeDirection -= if (it) 1 else -1 }).register()
+
+    @Slider(
+        title = "Key Bind Speed",
+        description = "In-game hours per second while a key bind is held.",
+        min = 0.1f, max = 12f, step = 0.1f
+    )
+    var keybindSpeed = 1f
+
+    private var timeDirection = 0
 
     init {
         eventHandler { _: TickEvent.End ->
@@ -88,6 +101,7 @@ object PolyTimeConfig : Config("${PolyTimeConstants.ID}.json", "/assets/polytime
 
         addDependency("forwardKeyBind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
         addDependency("backwardKeybind", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
+        addDependency("keybindSpeed", "IRL Time") { if (isIrlTime) Property.Display.DISABLED else Property.Display.SHOWN }
 
         addCallback<Boolean>("isIrlTime") { enabled ->
             if (enabled) RealTimeHandler.populateTime()
