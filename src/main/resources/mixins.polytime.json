@@ -7,8 +7,11 @@
     "verbose": true,
     "client": [
         "Mixin_ClientClockManager",
+        "Mixin_ClientLevel",
         "Mixin_ClientLevelData",
-        "Mixin_FixMoonPhases"
+        "Mixin_FixMoonPhases",
+        "Mixin_GameRenderer",
+        "Mixin_NuitSkyboxManager"
     ],
     "injectors": {
         "defaultRequire": 1

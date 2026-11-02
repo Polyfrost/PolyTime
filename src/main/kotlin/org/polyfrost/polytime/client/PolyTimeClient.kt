@@ -1,5 +1,6 @@
 package org.polyfrost.polytime.client
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation
 import org.polyfrost.polytime.client.realtime.RealTimeHandler
 import org.polyfrost.polytime.realTimeToGameTime
 
@@ -15,6 +16,23 @@ object PolyTimeClient {
         }
 
     const val NO_TIME = -1L
+
+    private var overriding = false
+
+    @JvmStatic
+    val shouldOverride: Boolean
+        get() = overriding && PolyTimeConfig.isEnabled
+
+    @JvmStatic
+    fun overriding(original: Operation<Void>, vararg args: Any?) {
+        val previous = overriding
+        overriding = true
+        try {
+            original.call(*args)
+        } finally {
+            overriding = previous
+        }
+    }
 
     @JvmStatic
     fun adjustTicks(ticks: Long): Long {
