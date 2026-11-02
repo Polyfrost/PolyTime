@@ -1,3 +1,4 @@
-## 1.3.2
-- fix: use ClientLevelData time hook below 26.1
-- fix: keep current day count when overriding time
+## 1.3.3
+- Added moon phase option, allowing you to override the moon phase
+- Readded fast time, allowing you to control the speed time passes
+- Made the keybinds hold instead of press, and added adjustable speed
