@@ -10,6 +10,7 @@
         "Mixin_ClientLevel",
         "Mixin_ClientLevelData",
         "Mixin_FixMoonPhases",
+        "Mixin_FreezeSkyTickDelta",
         "Mixin_GameRenderer",
         "Mixin_NuitSkyboxManager"
     ],
